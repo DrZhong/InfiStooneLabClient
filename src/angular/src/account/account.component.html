@@ -1,0 +1,33 @@
+﻿<div class="container">
+  <div class="top">
+    <div class="head my-lg">
+
+      <img class="logo" src="assets/images/logos/infistoone-min.png">
+      <span class="title">原石智能实验室管理系统</span>
+
+    </div>
+
+
+    <div *ngIf="showTenantChange()">
+      <tenant-change></tenant-change>
+    </div>
+
+    <!-- <div>
+      <img class="logo" src="/assets/images/52abp_logo.svg">
+      <img class="logo" src="/assets/images/52abp_txt.svg">
+    </div> -->
+  </div>
+
+  <router-outlet></router-outlet>
+
+  <br>
+  <account-languages></account-languages>
+
+  <global-footer [links]="links">
+    Copyright
+    <i nz-icon nzType="copyright"></i>
+    {{currentYear}}
+    <b>Version </b>{{versionText}}
+  </global-footer>
+
+</div>

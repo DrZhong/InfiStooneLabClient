@@ -1,0 +1,11 @@
+﻿global using Abp.UI;
+global using Abp.Runtime.Validation;
+global using Abp.Extensions;
+global using Abp.Domain.Repositories; 
+global using Abp.Linq.Extensions;
+global using Microsoft.EntityFrameworkCore;
+global using System.Linq.Dynamic.Core;
+global using Abp.Application.Services.Dto;
+global using Abp.Authorization;
+global using Abp.Collections.Extensions;
+global using Abp.AutoMapper;

@@ -1,0 +1,5 @@
+<nz-select [(ngModel)]="data" style="min-width:  120px;" required name="select-storage-condition" nzPlaceHolder="选择存储条件"
+    nzAllowClear>
+    <nz-option *ngFor="let item of list" [nzLabel]="item.name" [nzValue]="item.name">
+    </nz-option>
+</nz-select>

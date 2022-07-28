@@ -1,0 +1,49 @@
+<page-header [title]="title">
+    <ng-template #title>
+        <button nz-button (click)="back()">
+            <i nz-icon nzType="left" class=""></i>
+            返回
+        </button>
+        &nbsp;&nbsp;
+        消息详情
+    </ng-template>
+
+    <ng-template #extraTpl>
+        <a nz-button (click)="back()">
+            <i nz-icon nzType="left" nzTheme="outline"></i>
+            返回
+        </a>
+    </ng-template>
+</page-header>
+<div class="container">
+
+    <nz-skeleton [nzLoading]="loadding">
+        <div class="mt-sm">
+            <nz-collapse>
+                <nz-collapse-panel [nzHeader]="'消息内容'" [nzActive]="true">
+
+                    <p *ngIf="from">来自：{{from}}</p>
+                    <div [innerHTML]="i['title'] | html"></div>
+                    <div *ngIf="link" class="mt-md">
+                        <a [routerLink]="link">{{link}}</a>
+                    </div>
+                </nz-collapse-panel>
+            </nz-collapse>
+        </div>
+
+        <div class="mt-md" *ngIf="i.notification.notificationName=='App.Notification'">
+
+            <form nz-form #f="ngForm" se-container="1">
+                <se label="回复">
+                    <textarea rows="4" required nz-input placeholder="请输入回复的消息内容" name="msg"
+                        [(ngModel)]="msg"></textarea>
+                </se>
+                <se>
+                    <button nz-button nzType="primary" (click)="send()" [disabled]="f.invalid">回复</button>
+                </se>
+            </form>
+
+        </div>
+    </nz-skeleton>
+
+</div>

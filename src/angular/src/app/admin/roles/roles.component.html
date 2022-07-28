@@ -1,0 +1,16 @@
+<page-header [title]="l('Roles')" [action]="extraTpl">
+  <ng-template #extraTpl>
+    <button nz-button (click)="refresh()">
+      <i nz-icon nzType="reload" class=""></i>
+      刷新
+    </button>
+    <button nz-button (click)="create()" nzType="primary">
+      <i nz-icon nzType="plus" class=""></i>
+      添加
+    </button>
+  </ng-template>
+</page-header>
+
+
+<st [data]="dataList" [ps]="pageSize" [columns]="columns" [total]="totalItems" [loading]="isTableLoading"
+  (change)="change($event)"></st>

@@ -1,0 +1,22 @@
+<div class="modal-header">
+  <div class="modal-title">
+    选择用户
+  </div>
+</div>
+<div class="modal-content">
+  <form nz-form nzLayout="inline" #f="ngForm" se-container (submit)="loadData()">
+    <se label="名字或者账号">
+      <input type="filter" nz-input [(ngModel)]="filter" placeholder="输入用户名/姓名过滤" name="filter">
+    </se>
+    <se>
+      <button nz-button nzType="primary" [disabled]="f.invalid">搜索</button>
+    </se>
+  </form>
+  <st [data]="datas" [total]="total" (change)="show($event)" [loading]="isTableLoading" [columns]="columns"></st>
+</div>
+
+<div class="modal-footer">
+  <button nz-button type="button" (click)="close()">关闭</button>
+  <button nz-button type="submit" class="step-3" [nzType]="'primary'" (click)="save()" [nzLoading]="isTableLoading"
+    [disabled]="ckeckedValue.length==0">确定</button>
+</div>

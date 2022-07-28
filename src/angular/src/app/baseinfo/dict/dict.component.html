@@ -1,0 +1,27 @@
+<page-header title="字典表管理" [action]="extraTpl">
+    <ng-template #extraTpl>
+
+        <button nz-button (click)="create()" nzType="primary">
+            <i nz-icon nzType="plus" class=""></i> 新增
+        </button>
+    </ng-template>
+</page-header>
+<form nz-form nzLayout="inline" se-container>
+    <se label="类型过滤">
+        <nz-radio-group [(ngModel)]="expandValue" (ngModelChange)="search()">
+            <label nz-radio [nzValue]="true">全部展开</label>
+            <label nz-radio [nzValue]="false">全部合并</label>
+        </nz-radio-group>
+
+    </se>
+</form>
+<st [data]="dataList" resizable="true" [expand]="expand" expandRowByClick [columns]="columns"
+    [loading]="isTableLoading">
+
+    <ng-template #expand let-item let-index="index" let-column="column">
+        <st [data]="item.child" [columns]="columns">
+
+
+        </st>
+    </ng-template>
+</st>

@@ -1,0 +1,85 @@
+﻿<UserControl x:Class="InfiStoone.LabClient.Pages.LoginChild.AccountLogin"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:InfiStoone.LabClient.Pages.LoginChild"
+             xmlns:pages="clr-namespace:InfiStoone.LabClient.Pages"
+             mc:Ignorable="d"  
+             d:DesignHeight="450" d:DesignWidth="800">
+    <hc:TransitioningContentControl>
+        <Grid>
+
+            <Grid.RowDefinitions> 
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+        
+            <StackPanel Grid.Row="1" Grid.Column="0" Margin="0,72,0,0">
+                <TextBlock Text="使用用户名和密码登录" Style="{StaticResource TextBlockLarge}"></TextBlock>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition Width="80"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <hc:TextBox Grid.Row="0"  GotFocus="PassWord_OnGotFocus" 
+                                Name="UserName" Width="380" FontSize="25"  
+                                hc:InfoElement.TitleWidth="120" hc:InfoElement.TitlePlacement="Left" 
+                                hc:InfoElement.Placeholder="请输入用户名" hc:InfoElement.Title="用户名" Margin="0,32,0,0"  
+                                hc:InfoElement.Necessary="True" Text=""/>
+
+                    <!--<hc:TextBox Visibility="Hidden" Grid.Row="1" GotFocus="PassWord_OnGotFocus" KeyUp="PassWord_KeyUp"
+                            Name="PassWord1" ShowClearButton="True" 
+                            FontSize="25" Width="380" 
+                            hc:InfoElement.TitleWidth="120" 
+                            hc:InfoElement.Placeholder="请输入密码" 
+                            hc:InfoElement.TitlePlacement="Left" 
+                            hc:InfoElement.Title="密码" hc:InfoElement.Necessary="True" Margin="0,16,0,0"/>-->
+                    
+                    <hc:PasswordBox Grid.Row="1"
+                     GotFocus="PassWord_OnGotFocus" KeyUp="PassWord_KeyUp"
+                     Name="PassWord"
+                     hc:InfoElement.TitleWidth="120" 
+                     hc:InfoElement.TitlePlacement="Left"
+                     hc:InfoElement.Necessary="True"
+                     hc:InfoElement.Placeholder="请输入密码" 
+                     hc:InfoElement.Title="密码" 
+                     FontSize="25" Width="380" Margin="0,16,0,0"
+                    >
+
+                    </hc:PasswordBox>
+                </Grid> 
+                <Button Focusable="False" Name="Login" 
+                        Click="Login_OnClick" Content="登录" FontSize="30" Height="50" Width="300" Margin="0,50,0,0" Style="{StaticResource ButtonDanger}"></Button>
+
+              
+                <hc:Drawer Focusable="False" HorizontalAlignment="Center" Name="DrawerBottom"    Dock="Bottom" ShowMask="False">
+                    <Border Background="{DynamicResource RegionBrush}" Height="340" BorderThickness="0,1,0,0" BorderBrush="{DynamicResource BorderBrush}">
+                        <Canvas>
+                            <pages:EnglishKeyBord NotifyEveryCharacter="True" Canvas.Right="0" Canvas.Top="10" x:Name="EaBeyBoard" Grid.Row="1">
+
+                            </pages:EnglishKeyBord>
+                            <Button Canvas.Top="-30"
+                                    
+                                    Canvas.Right="0"  
+                                    Height="80"
+                                    Command="hc:ControlCommands.Close"    
+                                    hc:IconElement.Width="60"
+                                    hc:IconElement.Height="60"   
+                                    Foreground="{DynamicResource PrimaryTextBrush}" 
+                                    Style="{StaticResource ButtonIcon}"
+                                    hc:IconElement.Geometry="{StaticResource DeleteFillCircleGeometry}"/>
+                        </Canvas>
+                        <!----> 
+                    </Border>
+                    <!---->
+                </hc:Drawer>
+            </StackPanel>
+        </Grid>
+    </hc:TransitioningContentControl>
+</UserControl>

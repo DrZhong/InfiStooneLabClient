@@ -1,0 +1,73 @@
+<div class="modal-header">
+    <div class="modal-title">普通试剂标签绑定</div>
+</div>
+<div>
+    <div nz-row nzGutter="8">
+        <div nz-col nzSpan="24">
+            <sf #sf mode="edit" [schema]="schema" [formData]="i" button="none">
+                <ng-template sf-template="reagentId" let-i let-ui="ui" let-schema="schema">
+                    <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton" (click)="selectReagent()">
+                        <input type="text" readonly required [(ngModel)]="reagentName" nz-input placeholder="选择试剂" />
+                    </nz-input-group>
+                    <ng-template #suffixIconButton>
+                        <button nz-button type="button" nzType="primary" nzSearch><i nz-icon
+                                nzType="search"></i></button>
+                    </ng-template>
+
+                </ng-template>
+                <ng-template sf-template="tip">
+                    <nz-tag nzColor="magenta">生产日期/过期日期填写一个即可</nz-tag>
+                </ng-template>
+            </sf>
+
+        </div>
+    </div>
+
+    <div style="width: 100%;">
+        <div nz-row nzGutter="0">
+            <div nz-col nzSpan="12">
+                打印数据（请先选择存放仓库）
+            </div>
+            <div nz-col nzSpan="12" style="text-align: right;">
+                <button nz-button type="button" (click)="printBach()" nzType="primary">打印标签</button>
+                <button nz-button type="button" (click)="save(sf.value)" nzType="primary" [disabled]="!sf.valid"
+                    nzDanger>确认入库</button>
+            </div>
+        </div>
+        <nz-table [nzData]="i.items" nzSize="small" [nzShowPagination]="false">
+            <thead>
+                <tr>
+                    <th nzWidth="220px">条码</th>
+                    <th>存储位置</th>
+                    <th nzWidth="200px">数量</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let ii of i.items">
+                    <td>
+                        {{ii.barCode}}
+                    </td>
+                    <td>
+                        {{ii['locationName']}}
+                        <ng-container *ngIf="ii['locationStock']">
+                            <nz-tag nzColor="#cd201f">
+                                <span *ngIf="ii['locationStock'].countLimit==0">此库位存放数量无上限！</span>
+                                <span
+                                    *ngIf="ii['locationStock'].countLimit!=0">此库位存放数量上限为:{{ii['locationStock'].countLimit}}瓶,在库:{{ii['locationStock'].exitStockCount}}瓶</span>
+                            </nz-tag>
+                        </ng-container>
+                        <a *ngIf="!ii['locationStock']">
+                            <a (click)="showLocationStock(ii)">库位存储详情</a>
+                        </a>
+                    </td>
+                    <td>
+                        <nz-input-number [(ngModel)]="ii.amount" name="num-{{index}}"></nz-input-number>
+                    </td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </div>
+</div>
+<div class="modal-footer">
+    <button nz-button type="button" (click)="close2()">关闭</button>
+</div>

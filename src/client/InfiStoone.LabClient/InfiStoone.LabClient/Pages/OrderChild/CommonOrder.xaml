@@ -1,0 +1,100 @@
+﻿<Border x:Class="InfiStoone.LabClient.Pages.OrderChild.CommonOrder"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+              xmlns:hc="https://handyorg.github.io/handycontrol"
+        CornerRadius="10"
+        Width="900"
+        Height="700" 
+        DataContext="{Binding CommonOrder, Source={StaticResource Locator}}"
+        Background="{DynamicResource RegionBrush}">
+    <hc:SimplePanel>
+        <Button Width="44" Height="44" Command="hc:ControlCommands.Close" Style="{StaticResource ButtonIcon}" Foreground="{DynamicResource PrimaryBrush}" hc:IconElement.Geometry="{StaticResource ErrorGeometry}" Padding="0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,4,4,0"/>
+        <Grid  >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"></RowDefinition>
+                <RowDefinition Height="auto" MaxHeight="300"></RowDefinition>
+                <RowDefinition Height="60"></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <DockPanel></DockPanel>
+            <StackPanel Margin="10"  VerticalAlignment="Center" Orientation="Horizontal">
+                <TextBlock Style="{StaticResource TextBlockTitle}" Text="{Binding order.Id,StringFormat=普通出库单详情:{0}}"></TextBlock>
+            </StackPanel>
+            <DataGrid Grid.Row="1" 
+                      Name="MyList"
+                      Grid.ColumnSpan="2" 
+                      FontSize="13"
+                      Margin="0,8,0,0" 
+                      AutoGenerateColumns="False"
+                      Width="Auto"
+                      ItemsSource="{Binding DataList}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn  Width="150"  Binding="{Binding LocationName}" Header="位置"/>
+                    <DataGridTextColumn  Width="130"  Binding="{Binding StockoutAccount}" Header="出库数量"/>
+
+
+                    <DataGridTextColumn Width="140"  Binding="{Binding ReagentCasNo}" Header="Cas号"/>
+                    <DataGridTextColumn Width="140"  Binding="{Binding ReagentNo}" Header="试剂编号"/>
+                    <DataGridTextColumn Width="180"  Binding="{Binding ReagentCnName}" Header="试剂名称"/>
+                    <DataGridTextColumn Width="120"  Binding="{Binding ScanedAccount}" Header="已扫码数量"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <hc:SimplePanel  Grid.Row="2" >
+                <TextBlock VerticalAlignment="Center" FontSize="18" Margin="10,0,0,0" Text="具体出库批次清单："></TextBlock>
+ 
+                <StackPanel  Margin="10" HorizontalAlignment="Right"  VerticalAlignment="Center" Orientation="Horizontal">
+                    <Button Content="确认出库" Command="{Binding OrderStockOutCmd}" Style="{StaticResource BtnDanger}"></Button>
+                    <Button Margin="10,0" Content="扫描出库试剂" Command="{Binding ScanBarCodeCmd}" Style="{StaticResource BtnPrimary}"></Button>
+                </StackPanel>
+            </hc:SimplePanel>
+
+            <hc:ScrollViewer Grid.Row="3" >
+                <ItemsControl x:Name="MyItem" Margin="10" HorizontalAlignment="Left" VerticalAlignment="Top" ItemsSource="{Binding PrepareList}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="4"></UniformGrid>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Width="200" Margin="10"  CornerRadius="10" Height="120" BorderThickness="1" BorderBrush="White">
+                                <hc:SimplePanel >
+                                    <Button Width="40" Height="40" 
+                                          Command="{Binding DataContext.RemoveItemCmd,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ItemsControl}}}"
+                                         CommandParameter="{Binding}" Style="{StaticResource ButtonIcon}" Foreground="{DynamicResource DangerBrush}" hc:IconElement.Geometry="{StaticResource ErrorGeometry}" Padding="0" HorizontalAlignment="Right" VerticalAlignment="Top" Panel.ZIndex="1000" Margin="0"/>
+                                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left" Margin="8,10,0,0">
+                                        <TextBlock FontSize="16" Text="{Binding BarCode,StringFormat=条码:{0}}"></TextBlock>
+                                        <TextBlock FontSize="16" Margin="0,10,0,0" Text="{Binding Account,StringFormat=数量:{0}}"></TextBlock>
+                                    </StackPanel>
+                                   
+                                </hc:SimplePanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+           
+            </hc:ScrollViewer>
+            <StackPanel Margin="20,0"  Visibility="{Binding ElementName=MyItem,Path=HasItems,Converter={StaticResource Boolean2VisibilityReConverter}}" Grid.Row="3" 
+                           >
+                <TextBlock Style="{StaticResource TextBlockTitle}"
+                           Text="普通试剂出库流程"
+                           FontSize="30"
+                           Margin="0,50,0,20"
+                           ></TextBlock>
+                <TextBlock  
+                    FontSize="16"
+                   
+                        Text="1.到上面列表的位置取出对应的试剂和出库数量，尽量取同一个批次的试剂。"  ></TextBlock>
+                <TextBlock   FontSize="16"
+                     Margin="0,10"
+                        Text="2.点击右上方的”扫描出库试剂按钮“录入取出试剂的具体批次号和数量。"  ></TextBlock>
+                <TextBlock   FontSize="16"
+                        Text="3.和上方列表的出库数量核对是否一致，如果一致点击右上方的【确认出库】按钮完成出库单出库！"  ></TextBlock>
+            </StackPanel>
+      
+
+            
+        </Grid>
+    </hc:SimplePanel>
+</Border>

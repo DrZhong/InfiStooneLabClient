@@ -1,0 +1,128 @@
+﻿<UserControl x:Class="InfiStoone.LabClient.Pages.AddFingerDetail"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:InfiStoone.LabClient.Pages"
+                 xmlns:hc="https://handyorg.github.io/handycontrol"
+               DataContext="{Binding AddFingerDetail, Source={StaticResource Locator}}"
+             mc:Ignorable="d"  
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <Style BasedOn="{StaticResource TextBlockDefault}" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="20"></Setter>
+            <Setter Property="HorizontalAlignment" Value="Left"></Setter>
+        </Style> 
+    </UserControl.Resources>
+    <hc:Interaction.Triggers>
+        <hc:EventTrigger EventName="Loaded" >
+            <hc:InvokeCommandAction Command="{Binding PageInitCmd}"    />
+        </hc:EventTrigger>
+        <hc:EventTrigger EventName="Unloaded" >
+            <hc:InvokeCommandAction Command="{Binding PageOutCmd}"    />
+        </hc:EventTrigger>
+    </hc:Interaction.Triggers>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="120"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" Margin="8" Orientation="Horizontal">
+                <Button    Margin="0,0,5,0" Style="{StaticResource ButtonIcon}"  Height="40" hc:IconElement.Width="20" hc:IconElement.Geometry="{StaticResource WindowRestoreGeometry}"></Button>
+                <TextBlock Style="{StaticResource TextBlockLarge}" Text="注册指纹"></TextBlock> 
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Right" Grid.Column="1" Margin="8" Orientation="Horizontal">
+                <Button  Command="{Binding BackCmd}"  Style="{StaticResource BtnPrimary}" hc:IconElement.Geometry="{StaticResource LeftGeometry}"  Content="返回"></Button>
+            </StackPanel>
+        </Grid>
+ 
+        <Grid Grid.Row="2"  Margin="8" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="120">
+                    
+                </RowDefinition>
+                <RowDefinition Height="300">
+
+                </RowDefinition>
+                <RowDefinition>
+
+                </RowDefinition>
+            </Grid.RowDefinitions>
+            <StackPanel>
+                <hc:UniformSpacingPanel HorizontalAlignment="Center" Spacing="50">
+                    <TextBlock Text="{Binding User.Name,StringFormat=注册用户姓名：{0}}"></TextBlock>
+                    <TextBlock Text="{Binding User.Name,StringFormat=注册用户账号/手机号：{0}}"></TextBlock>
+                </hc:UniformSpacingPanel>
+                <hc:UniformSpacingPanel Grid.Row="1" Spacing="10" HorizontalAlignment="Center">
+                    <Label Content="设备已连接" Visibility="{Binding IsDevConnected,Converter={StaticResource Boolean2VisibilityConverter}}" Style="{StaticResource LabelSuccess}"></Label>
+                    <Label Content="设备未连接" Visibility="{Binding IsDevConnected,Converter={StaticResource Boolean2VisibilityReConverter}}" Style="{StaticResource LabelDanger}"></Label>
+                    <Label Content="设备已打开" Visibility="{Binding IsDevOpend,Converter={StaticResource Boolean2VisibilityConverter}}" Style="{StaticResource LabelSuccess}"></Label>
+                    <Button Content="点我打开设备" Command="{Binding OpenDevCmd}" Height="30" Visibility="{Binding IsDevOpend,Converter={StaticResource Boolean2VisibilityReConverter}}" Style="{StaticResource ButtonDanger.Small}"></Button>
+                </hc:UniformSpacingPanel>
+                <hc:UniformSpacingPanel Visibility="{Binding IsDevOpend,Converter={StaticResource Boolean2VisibilityConverter}}" HorizontalAlignment="Center" Margin="10" Spacing="20">
+                    <Button Command="{Binding BeginRegisterCmd}" Content="开始/重新 录入指纹" Style="{StaticResource BtnPrimary}"></Button>
+                </hc:UniformSpacingPanel>
+            </StackPanel>
+
+            <hc:UniformSpacingPanel Visibility="{Binding BeginRegister,Converter={StaticResource Boolean2VisibilityConverter}}" Grid.Row="1"  HorizontalAlignment="Center" >
+                <GroupBox Grid.Row="0" Grid.Column="0" Width="330" Height="280" Header="第一个指纹" Padding="10" >
+                    <Border Background="{DynamicResource RegionBrush}" CornerRadius="4">
+                        <hc:UniformSpacingPanel Grid.Row="2" Spacing="20" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <TextBlock Text="指纹" HorizontalAlignment="Center" Margin="10"></TextBlock>
+                                <Image Source="{Binding PicFp1}" Width="135" Height="164"></Image>
+
+                            </StackPanel>
+                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <TextBlock Text="静脉" HorizontalAlignment="Center" Margin="10"></TextBlock>
+                                <Image Source="{Binding PicFv1}" Width="208" Height="102"></Image>
+                            </StackPanel>
+
+                        </hc:UniformSpacingPanel>
+                    </Border>
+                </GroupBox>
+                <GroupBox Grid.Row="0" Grid.Column="0" Width="330" Height="280" Header="第二个指纹" Padding="10"  >
+                    <Border Background="{DynamicResource RegionBrush}" CornerRadius="4">
+                        <hc:UniformSpacingPanel Grid.Row="2" Spacing="20" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <TextBlock Text="指纹" HorizontalAlignment="Center" Margin="10"></TextBlock>
+                                <Image Source="{Binding PicFp2}" Width="135" Height="164"></Image>
+
+                            </StackPanel>
+                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <TextBlock Text="静脉" HorizontalAlignment="Center" Margin="10"></TextBlock>
+                                <Image Source="{Binding PicFv2}" Width="208" Height="102"></Image>
+                            </StackPanel>
+
+                        </hc:UniformSpacingPanel>
+                    </Border>
+                </GroupBox>
+                <GroupBox Grid.Row="0" Grid.Column="0" Width="330" Height="280" Header="第三个指纹" Padding="10" >
+                    <Border Background="{DynamicResource RegionBrush}" CornerRadius="4">
+                        <hc:UniformSpacingPanel Grid.Row="2" Spacing="20" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <TextBlock Text="指纹" HorizontalAlignment="Center" Margin="10"></TextBlock>
+                                <Image Source="{Binding PicFp3}" Width="135" Height="164"></Image>
+
+                            </StackPanel>
+                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <TextBlock Text="静脉" HorizontalAlignment="Center" Margin="10"></TextBlock>
+                                <Image Source="{Binding PicFv3}" Width="208" Height="102"></Image>
+                            </StackPanel>
+
+                        </hc:UniformSpacingPanel>
+                    </Border>
+                </GroupBox>
+            </hc:UniformSpacingPanel>
+            <TextBlock Text="点击上方按钮录入指纹"  Visibility="{Binding BeginRegister,Converter={StaticResource Boolean2VisibilityReConverter}}" Grid.Row="1"  HorizontalAlignment="Center">
+                
+            </TextBlock>
+        </Grid>
+
+    </Grid>
+</UserControl>

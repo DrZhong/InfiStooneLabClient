@@ -1,0 +1,42 @@
+<page-header title="库位信息" [action]="extraTpl">
+    <ng-template #extraTpl>
+
+        <button nz-button (click)="create()" nzType="primary">
+            <i nz-icon nzType="plus" class=""></i> 新增
+        </button>
+    </ng-template>
+</page-header>
+
+<form nz-form nzLayout="inline" (ngSubmit)="refresh()" se-container>
+    <se label="库位名">
+        <input nz-input style="width: 120px;" [(ngModel)]="filter" name="filter">
+    </se>
+    <se label="所属仓库">
+        <select-warehouse style="width: 150px;" [(ngModel)]="warehouseId" required name="warehouseId">
+        </select-warehouse>
+
+    </se>
+    <se label="存储属性">
+        <nz-select style="width: 180px;" [(ngModel)]="storageAttr" name="storageAttr" nzPlaceHolder="选择存储属性过滤"
+            nzAllowClear>
+            <nz-option *ngFor="let item of enumberEntityDto" [nzLabel]="item.desction" [nzValue]="item.enumValue">
+            </nz-option>
+        </nz-select>
+    </se>
+    <se>
+        <button nz-button nzType="primary">搜索</button>
+    </se>
+</form>
+
+<st [data]="dataList" resizable="true" [ps]="pageSize" [columns]="columns" [total]="totalItems"
+    [loading]="isTableLoading" (change)="change($event)" [expand]="expand" expandRowByClick>
+    <ng-template #expand let-item let-index="index" let-column="column">
+        <ng-container *ngFor="let it of item.locationStorageAttr">
+            <nz-tag *ngIf="it.isActive" nzColor="magenta">
+                {{it.storageAttrToString}}
+            </nz-tag>
+        </ng-container>
+
+
+    </ng-template>
+</st>

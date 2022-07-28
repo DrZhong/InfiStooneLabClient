@@ -1,0 +1,245 @@
+<style>
+    .card {
+        min-width: 120px;
+        text-align: center;
+        border: 1px solid #0202a5;
+        color: #0202a5;
+        ;
+    }
+
+    .card .num {
+        font-size: 50px;
+        /* font-weight: 600; */
+        height: 70px;
+        line-height: 70px;
+    }
+
+    .card .desc {
+        background-color: #0202a5;
+        color: #fff;
+        padding: 5px;
+        margin-bottom: 0;
+    }
+
+    .danger {
+        border-color: #c10000;
+        color: #c10000;
+    }
+
+    .danger .desc {
+        background-color: #c10000;
+    }
+
+    .icon {
+        font-size: 25px;
+    }
+
+    .line {
+        list-style: none;
+    }
+
+    .line span {
+        margin-right: 5px;
+    }
+
+    .line li {
+        margin: 5px 0;
+    }
+</style>
+<page-header [title]="l('HomePage')" [action]="action">
+    <ng-template #action>
+        <button nz-button [nzType]="'primary'" (click)="refresh()">刷新</button>
+    </ng-template>
+</page-header>
+
+
+<ng-container *ngIf="currentSelectedWarehouseType">
+    <h2>
+        <span [ngSwitch]="currentSelectedWarehouseType">
+            <ng-container *ngSwitchCase="1">
+                <i class="icon" nz-icon nzType="experiment" nzTheme="outline"></i>
+            </ng-container>
+            <ng-container *ngSwitchCase="2">
+                <i nz-icon nzType="project" nzTheme="outline"></i>
+            </ng-container>
+            <ng-container *ngSwitchCase="3">
+                <i nz-icon nzType="file-text" nzTheme="outline"></i>
+            </ng-container>
+        </span>
+        <span class="ml-sm">Welcome!欢迎登录实验室
+            <b [ngSwitch]="currentSelectedWarehouseType">
+                <ng-container *ngSwitchCase="1">
+                    试剂
+                </ng-container>
+                <ng-container *ngSwitchCase="2">
+                    耗材
+                </ng-container>
+                <ng-container *ngSwitchCase="3">
+                    办公
+                </ng-container>
+            </b>
+            智能管理系统！
+        </span>
+    </h2>
+    <div *ngIf="isMaster" nz-row nzGutter="8">
+        <div nz-col [nzMd]="4" nzXs="12">
+            <nz-card nzHoverable [nzBodyStyle]="{'padding':0}">
+                <div class="card">
+                    <div class="num">
+                        {{home.master.todayStockOutCount|number}}
+                    </div>
+                    <p class="desc">
+                        今日领用（专管）
+                    </p>
+                </div>
+            </nz-card>
+
+        </div>
+        <div nz-col [nzMd]="4" nzXs="12">
+            <div class="card">
+                <div class="num">
+                    {{home.master.todayStockBackCount|number}}
+                </div>
+                <p class="desc">
+                    今日归还（专管）
+                </p>
+            </div>
+        </div>
+        <div nz-col [nzMd]="4" nzXs="12">
+            <div class="card">
+                <div class="num">
+                    {{home.master.todayStockInCount|number}}
+                </div>
+                <p class="desc">
+                    今日入库（专管）
+                </p>
+            </div>
+        </div>
+        <div nz-col [nzMd]="4" nzXs="12">
+            <div class="card">
+                <div class="num">
+                    {{home.master.todayStockRetrieveCount|number}}
+                </div>
+                <p class="desc">
+                    今日回收（专管）
+                </p>
+            </div>
+        </div>
+        <div nz-col [nzMd]="4" nzXs="12">
+            <div class="card danger">
+                <div class="num">
+                    {{home.master.regentInventoryWarningCount|number}}
+                </div>
+                <p class="desc">
+                    库存预警（专管）
+                </p>
+            </div>
+        </div>
+        <div nz-col [nzMd]="4" nzXs="12">
+            <div class="card danger">
+                <div class="num">
+                    {{home.master.expirationCount|number}}
+                </div>
+                <p class="desc">
+                    过期试剂（专管）
+                </p>
+            </div>
+        </div>
+    </div>
+    <ng-container *ngIf="isMaster">
+        <hr />
+        <h3 class="mb-sm  text-red">
+            <i class="icon" nz-icon nzType="swap" nzTheme="outline"></i>
+            <span class="ml-sm">最新出入库履历（专管）</span>
+        </h3>
+        <ul class="line">
+            <ng-container *ngIf="masterRecords.length>0">
+                <li *ngFor="let item of masterRecords">
+                    <span>{{item.creationTime|_date}}</span>
+                    <span>{{item.createUserName}}</span>
+                    <span>{{item.reagentNo}}</span>
+                    <span>{{item.reagentCnName}}</span>
+                    <span>{{item.operateType|operateType}}</span>
+                    <span>{{item.weight|number}} g</span>
+                    <!-- <span>{{item.status}}</span> -->
+                </li>
+            </ng-container>
+            <ng-container *ngIf="masterRecords.length==0">
+                <li>
+                    <nz-alert nzType="warning">暂无记录</nz-alert>
+                </li>
+            </ng-container>
+
+        </ul>
+    </ng-container>
+
+
+    <div nz-row nzGutter="8">
+        <div nz-col [nzMd]="4" nzXs="12">
+            <div class="card">
+                <div class="num">
+                    {{normal.todayStockOutCount|number}}
+                </div>
+                <p class="desc">
+                    今日领用（普通）
+                </p>
+            </div>
+        </div>
+        <div nz-col [nzMd]="4" nzXs="12">
+            <div class="card">
+                <div class="num">
+                    {{normal.todayStockInCount|number}}
+                </div>
+                <p class="desc">
+                    今日入库（普通）
+                </p>
+            </div>
+        </div>
+        <div nz-col [nzMd]="4" nzXs="12">
+            <div class="card">
+                <div class="num">
+                    {{normal.todayStockBackCount|number}}
+                </div>
+                <p class="desc">
+                    今日归还（普通）
+                </p>
+            </div>
+        </div>
+        <div nz-col [nzMd]="4" nzXs="12">
+            <div class="card danger">
+                <div class="num">
+                    {{ normal.regentInventoryWarningCount|number}}
+                </div>
+                <p class="desc">
+                    库存预警（普通）
+                </p>
+            </div>
+        </div>
+        <div nz-col [nzMd]="4" nzXs="12">
+            <div class="card danger">
+                <div class="num">
+                    {{normal.expirationCount|number}}
+                </div>
+                <p class="desc">
+                    过期试剂（普通）
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <hr class=" mt-md" />
+    <h3 class="mb-sm  text-primary">
+        <i class="icon" nz-icon nzType="swap" nzTheme="outline"></i>
+        <span class="ml-sm">最新出入库履历（普通）</span>
+    </h3>
+    <ul class="line">
+        <li *ngFor="let item of normalRecords">
+            <span>{{item.creationTime|_date}}</span>
+            <span>{{item.createUserName}}</span>
+            <span>{{item.reagentNo}}</span>
+            <span>{{item.reagentCnName}}</span>
+            <span>{{item.operateType|operateType}}</span>
+            <span>&nbsp; ({{item.operateAmount}})</span>
+        </li>
+    </ul>
+</ng-container>

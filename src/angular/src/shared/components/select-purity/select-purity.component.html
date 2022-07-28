@@ -1,0 +1,5 @@
+<nz-select style="min-width:  120px;" [(ngModel)]="data" required name="select-purity" nzPlaceHolder="选择纯度"
+    nzAllowClear>
+    <nz-option *ngFor="let item of list" [nzLabel]="item.name" [nzValue]="item.name">
+    </nz-option>
+</nz-select>

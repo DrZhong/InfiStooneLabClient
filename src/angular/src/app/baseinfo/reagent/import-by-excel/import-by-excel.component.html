@@ -1,0 +1,13 @@
+<div class="modal-header">
+    <div class="modal-title">从EXCEL导入</div>
+</div>
+<sf #sf mode="edit" [schema]="schema" button="none">
+    <ng-template sf-template="down" let-i let-schema="schema">
+        <a [href]="downUrl" target="_blank">下载模板</a>
+    </ng-template>
+    <div class="modal-footer">
+        <button nz-button type="button" (click)="close()">关闭</button>
+        <button nz-button type="submit" [nzType]="'primary'" (click)="save(sf.value)" [disabled]="!sf.valid"
+            [nzLoading]="loading">导入</button>
+    </div>
+</sf>

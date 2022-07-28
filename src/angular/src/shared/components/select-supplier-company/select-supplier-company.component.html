@@ -1,0 +1,4 @@
+<nz-select [(ngModel)]="data" required name="select-supplier-company" nzPlaceHolder="选择供应商" nzAllowClear>
+    <nz-option *ngFor="let item of list" [nzLabel]="item.name" [nzValue]="item.id">
+    </nz-option>
+</nz-select>

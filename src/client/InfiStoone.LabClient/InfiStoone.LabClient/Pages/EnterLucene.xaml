@@ -1,0 +1,19 @@
+﻿<hc:Window x:Class="InfiStoone.LabClient.Pages.EnterLucene"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+            Background="{StaticResource BorderBrush}" 
+        Style="{StaticResource WindowWin10}"
+        xmlns:local="clr-namespace:InfiStoone.LabClient.Pages"
+        mc:Ignorable="d"
+        Title="输入授权文件" Height="400" Width="600">
+    <StackPanel>
+        <TextBlock Style="{StaticResource TextBlockLarge}" Text="首次使用请输入授权密钥" Margin="0,30"></TextBlock>
+        <TextBox Name="KeyTxt" FontSize="20" Height="50"  Style="{StaticResource TextBoxExtend}" Width="450"></TextBox>
+        <Button Name="Save" Click="Save_Click" Content="确 定" Width="300"
+                Height="60" FontSize="30" 
+                Style="{StaticResource ButtonPrimary}" Margin="0,20"></Button>
+    </StackPanel>
+</hc:Window>

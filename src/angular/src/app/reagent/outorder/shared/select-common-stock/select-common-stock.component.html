@@ -1,0 +1,41 @@
+<div class="modal-header">
+    <div class="modal-title">选先择要出库的普通试剂</div>
+</div>
+<div>
+
+    <form nz-form nzLayout="inline" (ngSubmit)="search()" se-container>
+
+        <se label="试剂编号">
+            <input class="s-input" nz-input [(ngModel)]="no" name="no">
+        </se>
+        <se label="试剂名称">
+            <input class="s-input" nz-input [(ngModel)]="filter" name="filter">
+        </se>
+        <se label="Cas号">
+            <input class="s-input" nz-input [(ngModel)]="casNo" name="casNo">
+        </se>
+        <se label="纯度">
+            <select-purity [(ngModel)]="purity"></select-purity>
+        </se>
+
+
+        <se label="存储条件">
+            <select-storage-condition [(ngModel)]="storageCondition"></select-storage-condition>
+        </se>
+        <se>
+            <button nz-button nzType="primary">搜索</button>
+        </se>
+    </form>
+
+
+    <st #st [data]="dataList" [scroll]="scroll" resizable="true" [ps]="pageSize" [columns]="columns"
+        [total]="totalItems" [loading]="isTableLoading" (change)="changeOne($event)">
+        <ng-template st-row="no" let-item let-index="index">
+            <span> <a (click)="show(item.id)">{{item.no}}</a> </span>
+        </ng-template>
+    </st>
+</div>
+<div class="modal-footer">
+    <button nz-button type="button" [nzType]="'primary'" (click)="select()">确定</button>
+    <button nz-button type="button" (click)="close()">关闭</button>
+</div>

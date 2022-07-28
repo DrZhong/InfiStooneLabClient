@@ -1,0 +1,61 @@
+<div class="modal-header">
+    <div class="modal-title">试剂详情</div>
+</div>
+<nz-spin *ngIf="loading" class="modal-spin"></nz-spin>
+<sv-container *ngIf="!loading" col="2" labelWidth="120">
+    <sv label="编号">
+        {{i.no}}
+    </sv>
+    <sv label="类型">
+        {{i.reagentCatalog | reagentCatalog}}
+    </sv>
+    <sv label="CAS号">
+        {{i.casNo}}
+    </sv>
+    <sv label="状态">
+        {{i.reagentStatus| reagentStatus}}
+    </sv>
+    <sv label="中文名" col="1">
+        {{i.cnName}}
+    </sv>
+    <sv label="中文别名" col="1">
+        {{i.cnAliasName}}
+    </sv>
+    <sv label="英文名" col="1">
+        {{i.enName}}
+    </sv>
+    <sv label="安全属性" col="1">
+        {{i.safeAttribute| safeAttribute}}
+    </sv>
+    <sv label="存储属性">
+        {{i.storageAttr| storageAttr}}
+    </sv>
+    <sv label="拼音码">
+        {{i.pinYinCode}}
+    </sv>
+    <sv label="存放位置" col="1">
+        {{locationName}}
+    </sv>
+    <sv label="纯度">
+        {{i.purity}}
+    </sv>
+    <sv label="容量">
+        {{i.capacity}}{{i.capacityUnit}}
+    </sv>
+    <sv label="存储条件">
+        {{i.storageCondition}}
+    </sv>
+    <sv label="库存预警">
+        {{i.inventoryWarning}}
+    </sv>
+    <sv label="生产商">
+        {{i.productionCompanyName}}
+    </sv>
+    <sv label="供应商">
+        {{i.supplierCompanyName}}
+    </sv>
+
+</sv-container>
+<div class="modal-footer">
+    <button nz-button type="button" (click)="close()">关闭</button>
+</div>

@@ -1,0 +1,11 @@
+<div class="modal-header">
+    <div class="modal-title">专管入库审核记录 :{{i.barCode}}</div>
+</div>
+<div>
+
+    <st #st [data]="dataList" resizable="true" [columns]="columns" [loading]="loading">
+    </st>
+</div>
+<div class="modal-footer">
+    <button nz-button type="button" (click)="close()">关闭</button>
+</div>

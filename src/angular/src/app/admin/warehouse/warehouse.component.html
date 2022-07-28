@@ -1,0 +1,31 @@
+<page-header title="仓库管理" [action]="extraTpl">
+    <ng-template #extraTpl>
+
+        <button nz-button (click)="create()" nzType="primary">
+            <i nz-icon nzType="plus" class=""></i> 新增
+        </button>
+    </ng-template>
+</page-header>
+
+<!-- <form nz-form nzLayout="inline" (ngSubmit)="search()" se-container>
+    <se label="类型过滤">
+        <nz-radio-group [(ngModel)]="warehouseType" (ngModelChange)="search()">
+            <label nz-radio [nzValue]="1">试剂仓库</label>
+            <label nz-radio [nzValue]="2">耗材仓库</label>
+            <label nz-radio [nzValue]="3">办公仓库</label>
+            <label nz-radio [nzValue]="undefined">全部</label>
+        </nz-radio-group>
+
+    </se>
+</form> -->
+<st [data]="list" resizable="true" [scroll]="scroll" [columns]="columns" [loading]="isTableLoading">
+    <ng-template st-row="custom" let-item let-index="index">
+        <div [ngSwitch]="item.zhuanGuanNotifySetting">
+            <div *ngSwitchCase="0">不提醒</div>
+            <div *ngSwitchCase="1">提醒一次<b>({{item.notifySettingIntervalHour}}小时)</b></div>
+            <div *ngSwitchCase="2">周期性提醒<b>({{item.notifySettingIntervalHour}}小时)</b> </div>
+            <div *ngSwitchDefault>--</div>
+        </div>
+    </ng-template>
+
+</st>

@@ -1,0 +1,75 @@
+﻿//@import '~@delon/theme/index';
+@import '@delon/theme/index';
+:host {
+  ::ng-deep {
+    .global-footer__links-item {
+      display: inline-block;
+      color: #0094ff;
+      transition: all 0.3s;
+    }
+    .global-footer__copyright {
+      color: #fff;
+      font-size: 14px;
+  }
+    .container {
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
+      background: #f0f2f5;
+      padding: 110px 0 144px;
+      background-color: #2e2a3c;
+      color: #fff;
+      background: url("data:image/jpeg;base64,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")
+    }
+    .langs {
+      text-align: right;
+      width: 100%;
+      height: 40px;
+      line-height: 44px;
+      .anticon {
+        margin-top: 24px;
+        margin-right: 24px;
+        font-size: 14px;
+        vertical-align: top;
+        cursor: pointer;
+      }
+    }
+    .wrap {
+      padding: 32px 0;
+      flex: 1;
+    }
+
+
+
+    .top {
+      text-align: center;
+    }
+    .header {
+      height: 44px;
+      line-height: 44px;
+      a {
+        text-decoration: none;
+      }
+    }
+    .logo {
+      height: 44px;
+      margin-right: 16px;
+    }
+    .title {
+      font-size: 33px;
+      font-family: 'Myriad Pro', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+ 
+      letter-spacing: 6px;
+      position: relative;
+      vertical-align: middle;
+    }
+    .desc {
+      font-size: @font-size-base;
+      color: @text-color-secondary;
+      margin-top: 12px;
+      margin-bottom: 40px;
+    }
+  }
+}
+
+

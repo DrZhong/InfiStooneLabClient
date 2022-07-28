@@ -1,0 +1,19 @@
+<page-header [title]="l('用户指纹')" [action]="extraTpl">
+    <ng-template #extraTpl>
+
+
+    </ng-template>
+</page-header>
+
+<form nz-form nzLayout="inline" (ngSubmit)="refresh()" se-container>
+
+    <se label="用户">
+        <input nz-input style="width: 180px;" [(ngModel)]="filter" name="filter">
+    </se>
+    <se>
+        <button nz-button nzType="primary">搜索</button>
+    </se>
+</form>
+
+<st [data]="dataList" resizable="true" [ps]="pageSize" [columns]="columns" [total]="totalItems"
+    [loading]="isTableLoading" (change)="change($event)"></st>

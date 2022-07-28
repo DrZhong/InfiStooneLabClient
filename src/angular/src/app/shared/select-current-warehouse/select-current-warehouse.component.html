@@ -1,0 +1,21 @@
+<div class="modal-header">
+    <div class="modal-title">选择登入仓库</div>
+</div>
+<div>
+    <form nz-form #f="ngForm" se-container col="1">
+        <se label="选择仓库" extra="选择一个仓库登录，如果没有任何仓库可选择，请联系管理员为你添加一个仓库后台的权限！">
+            <nz-select [(ngModel)]="value" name="value" nzPlaceHolder="请选择一个仓库类型登入">
+                <nz-option nzLabel="试剂仓库" [nzValue]="1" *ngIf="canManageReagent">
+                </nz-option>
+                <nz-option nzLabel="耗材仓库" [nzValue]="2" *ngIf="canManageConsum">
+                </nz-option>
+                <nz-option nzLabel="办公仓库" [nzValue]="3" *ngIf="canManageOffice">
+                </nz-option>
+            </nz-select>
+        </se>
+    </form>
+</div>
+
+<div class="modal-footer">
+    <button nz-button type="button" nzType="primary" [disabled]="!value" (click)="save()">确认选择</button>
+</div>

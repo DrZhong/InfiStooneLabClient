@@ -1,0 +1,27 @@
+<div class="modal-header">
+    <div class="modal-title">选择试剂</div>
+</div>
+<div>
+    <form nz-form nzLayout="inline" (ngSubmit)="refresh()" se-container>
+        <se label="编号">
+            <input class="s-input" nz-input style="width: 120px;" [(ngModel)]="no" name="no">
+        </se>
+        <se label="Cas号">
+            <input class="s-input" nz-input [(ngModel)]="casNo" name="casNo">
+        </se>
+        <se label="试剂名称">
+            <input class="s-input" nz-input [(ngModel)]="filter" name="filter">
+        </se>
+        <se>
+            <button nz-button nzType="primary">搜索</button>
+        </se>
+    </form>
+
+    <st #st [data]="dataList" [scroll]="scroll" resizable="true" [ps]="pageSize" [columns]="columns"
+        [total]="totalItems" [loading]="isTableLoading" (change)="change1($event)">
+    </st>
+
+</div>
+<div class="modal-footer">
+    <button nz-button type="button" (click)="close()">关闭</button>
+</div>

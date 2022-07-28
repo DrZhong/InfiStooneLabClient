@@ -1,0 +1,4 @@
+﻿FROM mcr.microsoft.com/dotnet/sdk:6.0.101-bullseye-slim AS build
+WORKDIR /src-base
+COPY . . 
+RUN dotnet restore ./Guoxu.LabManager.Web.Host/Guoxu.LabManager.Web.Host.csproj --configfile /src-base/NuGet.Config

@@ -1,0 +1,141 @@
+<div class="modal-header">
+    <div class="modal-title">专管试剂入库</div>
+</div>
+<div>
+    <div nz-row nzGutter="8">
+        <div nz-col nzSpan="12">
+            <form nz-form #f="ngForm" (ngSubmit)="save()" se-container col="2" labelWidth="90">
+                <se label="选择试剂" required col="1">
+                    <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton" (click)="selectReagent()">
+                        <input type="text" readonly required [(ngModel)]="reagentName" nz-input placeholder="选择试剂" />
+                    </nz-input-group>
+                    <ng-template #suffixIconButton>
+                        <button nz-button type="button" nzType="primary" nzSearch><i nz-icon
+                                nzType="search"></i></button>
+                    </ng-template>
+                </se>
+                <se label="存放库位" required col="1">
+                    <nz-select [(ngModel)]="i.locationId" required (ngModelChange)="locationChange($event)"
+                        name="LocationId" nzPlaceHolder="选择存储位置">
+                        <nz-option *ngFor="let item of locations" [nzLabel]="item.locationName"
+                            [nzValue]="item.locationId">
+                        </nz-option>
+                    </nz-select>
+                    <nz-tag *ngIf="locationStock" nzColor="#cd201f">
+                        <span *ngIf="locationStock.countLimit==0">此库位存放数量无上限！</span>
+                        <span
+                            *ngIf="locationStock.countLimit!=0">此库位存放数量上限为:{{locationStock.countLimit}}瓶,在库:{{locationStock.exitStockCount}}瓶，离库：{{locationStock.outStockCount}}瓶</span>
+                    </nz-tag>
+                </se>
+                <se label="入库批号" style="padding-right:0" required>
+                    <input nz-input [(ngModel)]="i.batchNo" required name="BatchNo" placeholder="">
+                </se>
+                <se label="批次价格" required>
+                    <input nz-input [(ngModel)]="i.price" required name="price" placeholder="">
+                </se>
+                <se label="供应商" col="1">
+                    <nz-select [(ngModel)]="i.supplierCompanyId" required name="supplierCompanyId"
+                        nzPlaceHolder="选择供应商,留空为添加试剂时的供应商" nzAllowClear>
+                        <nz-option *ngFor="let item of sCompanys" [nzLabel]="item.name" [nzValue]="item.id">
+                        </nz-option>
+                    </nz-select>
+                    <!-- <select-supplier-company [(ngModel)]="i.supplierCompanyId" name="SupplierCompanyId">
+                    </select-supplier-company> -->
+                </se>
+                <se label="生产商" col="1">
+                    <nz-select [(ngModel)]="i.productionCompanyId" required name="productionCompanyId"
+                        nzPlaceHolder="选择生产商,留空为添加试剂时的生产商" nzAllowClear>
+                        <nz-option *ngFor="let item of pCompanys" [nzLabel]="item.name" [nzValue]="item.id">
+                        </nz-option>
+                    </nz-select>
+                    <!-- <select-production-company [(ngModel)]="i.productionCompanyId" name="ProductionCompanyId">
+                    </select-production-company> -->
+                </se>
+                <se label="生产日期" style="padding-right:0">
+                    <nz-date-picker [nzDisabledDate]="disabledDate" [(ngModel)]="i.productionDate" name="productionDate"
+                        nzPlaceHolder="请选择试剂生产日期">
+                    </nz-date-picker>
+                </se>
+                <se label="保质期">
+                    <nz-input-group nzAddOnAfter="月">
+                        <input nz-input type="number" [(ngModel)]="i.expirationMonth" name="expirationMonth"
+                            placeholder="请输入保质期">
+                    </nz-input-group>
+
+                </se>
+                <se label="过期日期" style="padding-right:0">
+                    <nz-date-picker [(ngModel)]="i.expirationDate" name="expirationDate" nzPlaceHolder="请选择试剂过期日期">
+                    </nz-date-picker>
+                </se>
+                <se labelWidth="0">
+                    <p style="color: #f00;">*生产日期/过期日期填写一个即可</p>
+                </se>
+                <!-- <se>
+                <div nz-row style="text-align: center;">
+                    <div nz-col nzSpan="12">
+                        <button nz-button nzType="primary" [nzLoading]="saving" [disabled]="f.invalid">入库</button>
+                    </div>
+                    <div nz-col nzSpan="12">
+                        <button nz-button type="button" nzType="primary" [disabled]="dataList.length==0"
+                            nzDanger>打印标签</button>
+                    </div>
+                </div>
+            </se> -->
+            </form>
+        </div>
+        <div nz-col nzSpan="12">
+            <label>数量: </label>
+            <nz-input-number style="width: 100px;" [(ngModel)]="num" name="num"></nz-input-number>
+            <a (click)="getCode()" class="ml-sm">生成标签</a>
+            <nz-divider nzType="vertical"></nz-divider>
+            <a (click)="clearCode()">清空</a>
+            <nz-divider nzType="vertical"></nz-divider>
+            <!-- <label nz-checkbox [(ngModel)]="i.clientConfirm" name="clientConfirm">终端入库确认</label>
+            <label nz-checkbox [(ngModel)]="i.doubleConfirm" name="doubleConfirm">双人双锁</label> -->
+            <!--<nz-divider nzType="vertical"></nz-divider>
+             <button nz-button type="button" nzType="primary">绑定标签</button> -->
+            <div>
+                <nz-table [nzScroll]="{y:'220px'}" nzSize="small" #nzTable [nzData]="codes" nzShowPagination="false">
+                    <thead>
+                        <tr>
+                            <th nzWidth="100px">ID</th>
+                            <th>条形码</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let i of codes;let index=index">
+                            <td>{{index+1}}</td>
+                            <td>
+                                {{i}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </nz-table>
+                <!-- <st [data]="codes" [columns]="codeColumns"></st> -->
+            </div>
+        </div>
+    </div>
+
+    <div style="width: 100%;">
+        <div nz-row nzGutter="0">
+            <div nz-col nzSpan="12">
+                绑定结果
+            </div>
+            <div nz-col nzSpan="12" style="text-align: right;">
+                <button nz-button type="button" (click)="printBach()" nzType="primary" nzDanger>打印标签</button>
+                <button nz-button type="button" [nzLoading]="saving" [disabled]="f.invalid" (click)="save()"
+                    nzType="primary">绑定标签</button>
+            </div>
+        </div>
+        <st #st [data]="dataList" noResult="暂无数据" [scroll]="scroll" resizable="true" [columns]="columns"
+            [loading]="saving">
+            <ng-template st-row="reagentNo" let-item let-index="index">
+                <span>[<a
+                        (click)="show(item.reagentId)">{{item.reagentNo}}</a>,{{item.reagentCasNo}}]{{item.reagentCnName}}</span>
+            </ng-template>
+        </st>
+    </div>
+</div>
+<div class="modal-footer">
+    <button nz-button type="button" (click)="close2()">关闭</button>
+</div>

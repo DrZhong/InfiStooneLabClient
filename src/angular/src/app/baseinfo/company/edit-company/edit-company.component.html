@@ -1,0 +1,12 @@
+<div class="modal-header">
+    <div class="modal-title" *ngIf="!record.id">新增厂家</div>
+    <div class="modal-title" *ngIf="record.id">修改厂家</div>
+</div>
+<nz-spin *ngIf="!record" class="modal-spin"></nz-spin>
+<sf *ngIf="record" #sf mode="edit" [schema]="schema" [formData]="record" button="none">
+    <div class="modal-footer">
+        <button nz-button type="button" (click)="close()">关闭</button>
+        <button nz-button type="submit" [nzType]="'primary'" (click)="save(sf.value)" [disabled]="!sf.valid"
+            [nzLoading]="loading">保存</button>
+    </div>
+</sf>

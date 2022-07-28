@@ -1,0 +1,15 @@
+<button nz-button class="alain-default__aside-user" style="max-width: 160px;overflow: hidden;" nzPlacement="bottomRight"
+  nz-dropdown [nzDropdownMenu]="menu4">
+  {{currentWarehouseName}}
+  <i nz-icon nzType="down"></i>
+</button>
+<nz-dropdown-menu #menu4="nzDropdownMenu">
+  <ul nz-menu nzSelectable>
+    <li nz-menu-item (click)="select(1)" *ngIf="canManageReagent">试剂仓库
+    </li>
+    <li nz-menu-item (click)="select(2)" *ngIf="canManageConsum">耗材仓库
+    </li>
+    <li nz-menu-item (click)="select(3)" *ngIf="canManageOffice">办公仓库
+    </li>
+  </ul>
+</nz-dropdown-menu>

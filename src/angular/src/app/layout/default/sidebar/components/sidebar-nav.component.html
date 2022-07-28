@@ -1,0 +1,52 @@
+<!-- <sidebar-nav [openStrictly]="true" class="d-block mt-md"></sidebar-nav> -->
+
+<ul nz-menu [nzMode]="'inline'" [nzInlineCollapsed]="collapsed" [nzInlineIndent]="8">
+  <ng-template ngFor let-menuItem [ngForOf]="list" let-mainMenuItemIndex="index">
+    <li *ngIf="canShow(menuItem)&&!hasChildren(menuItem)" nz-menu-item routerLinkActive="ant-menu-item-selected"
+      routerLinkActive="ant-menu-item-selected">
+      <a [routerLink]="[menuItem.link]" [target]="menuItem.target">
+        <i nz-icon *ngIf="menuItem.icon" [nzType]="menuItem.icon.value"></i>
+        <span>{{menuItem.text}}</span>
+      </a>
+    </li>
+
+    <li *ngIf="canShow(menuItem)&&hasChildren(menuItem)" nz-submenu routerLinkActive="myactive"
+      [routerLinkActiveOptions]="{exact: true}" #rla="routerLinkActive" [nzOpen]="rla.isActive">
+      <span title>
+        <i nz-icon *ngIf="menuItem.icon" [nzType]="menuItem.icon.value"></i>
+        <span>{{menuItem.text}}</span>
+      </span>
+      <ul>
+        <ng-template ngFor let-subMenuItem [ngForOf]="menuItem.children" let-mainMenuItemIndex="index">
+          <li *ngIf="canShow(subMenuItem)&&!hasChildren(subMenuItem)" nz-menu-item
+            routerLinkActive="ant-menu-item-selected">
+            <a [routerLink]="[subMenuItem.link]" [target]="subMenuItem.target">
+              <i *ngIf="subMenuItem.icon" nz-icon [nzType]="subMenuItem.icon.value"></i>
+              <span>{{subMenuItem.text}}</span>
+            </a>
+          </li>
+
+          <li *ngIf="canShow(subMenuItem)&&hasChildren(subMenuItem)" nz-submenu routerLinkActive
+            [routerLinkActiveOptions]="{exact: true}" #rla2="routerLinkActive" [nzOpen]="rla2.isActive">
+            <span title>
+              <i *ngIf="subMenuItem.icon" nz-icon [nzType]="subMenuItem.icon.value"></i>
+              <span>{{subMenuItem.text}}</span>
+            </span>
+
+            <ul>
+              <ng-template ngFor let-subSubMenuItem [ngForOf]="subMenuItem.children" let-mainMenuItemIndex="index">
+                <li *ngIf="canShow(subSubMenuItem)&&!hasChildren(subSubMenuItem)" nz-menu-item
+                  routerLinkActive="ant-menu-item-selected">
+                  <a [routerLink]="[subSubMenuItem.link]" [target]="subSubMenuItem.target">
+                    <i *ngIf="subSubMenuItem.icon" nz-icon [nzType]="subSubMenuItem.icon.value"></i>
+                    <span>{{subSubMenuItem.text}}</span>
+                  </a>
+                </li>
+              </ng-template>
+            </ul>
+          </li>
+        </ng-template>
+      </ul>
+    </li>
+  </ng-template>
+</ul>

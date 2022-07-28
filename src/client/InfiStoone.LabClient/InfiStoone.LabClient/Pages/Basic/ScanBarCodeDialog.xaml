@@ -1,0 +1,62 @@
+﻿<Border x:Class="InfiStoone.LabClient.Pages.Basic.ScanBarCodeDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                xmlns:hc="https://handyorg.github.io/handycontrol"
+                    CornerRadius="10"
+        Width="600"
+        Height="400"
+        DataContext="{Binding ScanBarCodeDialog, Source={StaticResource Locator}}"
+        Background="{DynamicResource RegionBrush}">
+    <StackPanel VerticalAlignment="Center" Margin="32">
+
+        <TextBlock Style="{StaticResource TextBlockLargeBold}" Text="请扫描条码和输入对应数量"/>
+
+        <hc:ElementGroup Orientation="Horizontal"  Margin="0,32,0,0" >
+            <TextBlock  VerticalAlignment="Center"  FontSize="16" Text="条码："></TextBlock>
+            <hc:TextBox Width="350"  
+                        Name="BarCodeTxt"
+                        AutoWordSelection="True"
+                     hc:InfoElement.Placeholder="请扫描或者输入条码"  
+                     FontSize="30"  
+                     Text="{Binding Result.BarCode,UpdateSourceTrigger=PropertyChanged}">
+                <hc:Interaction.Triggers>
+                    <hc:EventTrigger EventName="GotFocus">
+                        <hc:EventToCommand Command="{Binding GotFocusCmd}" PassEventArgsToCommand="True" />
+                    </hc:EventTrigger>
+                </hc:Interaction.Triggers>
+               
+            </hc:TextBox>
+            <ToggleButton Focusable="False" Command="{Binding OpenKeyBord2}"
+                          CommandParameter="{Binding Path=IsChecked, RelativeSource={RelativeSource Self}}" 
+                          hc:IconElement.Geometry="{StaticResource KeyboardGeometry}"  
+                          Foreground="Blue"
+                          FontSize="30" Height="50" Content="键盘"/>
+        </hc:ElementGroup>
+        <hc:ElementGroup Visibility="{Binding ShowAccount,Converter={StaticResource Boolean2VisibilityReConverter}}" 
+                         Orientation="Horizontal"  Margin="0,12,0,0" >
+            <TextBlock  FontSize="16" VerticalAlignment="Center" Text="数量："></TextBlock>
+            <TextBox  Width="350" FontSize="30"
+                               Text="{Binding Result.Account,UpdateSourceTrigger=PropertyChanged}"
+                               >
+                <hc:Interaction.Triggers>
+                    <hc:EventTrigger EventName="GotFocus">
+                        <hc:EventToCommand Command="{Binding GotFocusCmd}" PassEventArgsToCommand="True" />
+                    </hc:EventTrigger>
+                </hc:Interaction.Triggers>
+            </TextBox>
+
+            <ToggleButton Focusable="False" Command="{Binding OpenKeyBord}"
+                          CommandParameter="{Binding Path=IsChecked, RelativeSource={RelativeSource Self}}" 
+                          hc:IconElement.Geometry="{StaticResource KeyboardGeometry}"  
+                          FontSize="30" Height="50" Content="键盘"/>
+        </hc:ElementGroup>
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Width="120" Margin="0,32,0,0" Command="{Binding OkCmd}" Style="{StaticResource BtnDanger}" Content="确定"/>
+            <Button Width="120" Margin="10,32,0,0" Command="{Binding CloseCmd}" Style="{StaticResource BtnPrimary}" Content="取消"/>
+        </StackPanel>
+
+    </StackPanel>
+</Border>

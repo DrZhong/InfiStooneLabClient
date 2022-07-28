@@ -1,0 +1,74 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "declaration": false,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "lib": [
+      "es2018",
+      "dom"
+    ],
+    "mapRoot": "./",
+    "module": "es2020",
+    "skipLibCheck": true,
+    "moduleResolution": "node",
+    "outDir": "../dist/out-tsc",
+    "sourceMap": true,
+    "target": "es2017",
+    "typeRoots": [
+      "../node_modules/@types"
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "@appshared": [
+        "app/shared"
+      ],
+      "@appshared/*": [
+        "app/shared/*"
+      ],
+      "@core": [
+        "app/core"
+      ],
+      "@core/*": [
+        "app/core/*"
+      ],
+      "@testing": [
+        "testing"
+      ],
+      "@testing/*": [
+        "testing/*"
+      ],
+      "@env": [
+        "environments"
+      ],
+      "@env/*": [
+        "environments/*"
+      ],
+      "@shared": [
+        "shared"
+      ],
+      "@shared/*": [
+        "shared/*"
+      ],
+      "@abp/*": [
+        "../node_modules/abp-ng2-module/dist/src/*"
+      ],
+      "@app/*": [
+        "./app/*"
+      ],
+      "echarts": [
+        "node_modules/echarts/dist/echarts.min.js"
+      ],
+      "@angular/*": [
+        "../node_modules/@angular/*"
+      ]
+    }
+  },
+  "angularCompilerOptions": {
+    "fullTemplateTypeCheck": false,
+    "strictInjectionParameters": true,
+    "strictTemplates": false
+  }
+}

@@ -1,0 +1,19 @@
+<div class="modal-header">
+    <div class="modal-title">已删除试剂 </div>
+</div>
+<div>
+    <div>
+        <label nz-checkbox [(ngModel)]="showCnAliasName" (ngModelChange)="checkChange($event)">中文别名</label>
+        <label nz-checkbox [(ngModel)]="showEnName" (ngModelChange)="checkChange($event)">英文名</label>
+        <label nz-checkbox [(ngModel)]="showSafeAttribute" (ngModelChange)="checkChange($event)">安全属性</label>
+        <label nz-checkbox [(ngModel)]="showStorageCondition" (ngModelChange)="checkChange($event)">存储条件</label>
+
+        <label nz-checkbox [(ngModel)]="showProductionCompany" (ngModelChange)="checkChange($event)">生产商</label>
+        <label nz-checkbox [(ngModel)]="showSupplierCompany" (ngModelChange)="checkChange($event)">供应商</label>
+        <button nz-button (click)="refresh()" nzType="primary">搜索</button>
+    </div>
+    <st #st [data]="dataList" [scroll]="scroll" resizable="true" [ps]="pageSize" [columns]="columns"
+        [total]="totalItems" [loading]="isTableLoading" (change)="change($event)">
+    </st>
+
+</div>

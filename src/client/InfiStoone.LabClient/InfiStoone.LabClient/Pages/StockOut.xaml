@@ -1,0 +1,164 @@
+﻿<UserControl x:Class="InfiStoone.LabClient.Pages.StockOut"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:local="clr-namespace:InfiStoone.LabClient.Pages"
+              DataContext="{Binding StockOut, Source={StaticResource Locator}}"
+                       mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="1024">
+    <UserControl.Resources>
+        <Style BasedOn="{StaticResource TextBlockDefault}" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="20"></Setter>
+            <Setter Property="HorizontalAlignment" Value="Left"></Setter>
+        </Style>
+    </UserControl.Resources>
+    <hc:Interaction.Triggers>
+        <hc:EventTrigger EventName="Loaded" >
+            <hc:InvokeCommandAction Command="{Binding PageInitCmd}"    />
+        </hc:EventTrigger>
+        <hc:EventTrigger EventName="Unloaded" >
+            <hc:InvokeCommandAction Command="{Binding PageOutCmd}"    />
+        </hc:EventTrigger>
+    </hc:Interaction.Triggers>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"> </RowDefinition> 
+            <RowDefinition Height="70"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" Margin="8" Orientation="Horizontal">
+                <Button    Margin="0,0,5,0" Style="{StaticResource ButtonIcon}" Height="40" hc:IconElement.Width="20" hc:IconElement.Geometry="{StaticResource WindowRestoreGeometry}"></Button>
+                <TextBlock Style="{StaticResource TextBlockLarge}" Text="试剂领取"></TextBlock>
+
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Right" Grid.Column="1" Margin="8" Orientation="Horizontal">
+                <Button  Command="{Binding GoHomeCmd}"  Style="{StaticResource BtnPrimary}" hc:IconElement.Geometry="{StaticResource LeftGeometry}"  Content="返回"></Button>
+            </StackPanel>
+        </Grid>
+
+        <StackPanel Grid.Row="1"  >
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition Width="100"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <hc:SearchBar Style="{StaticResource SearchBarPlus}"  
+                          hc:InfoElement.Placeholder="请持扫码枪扫描试剂瓶条形码，听到滴一声后，确定领取清单中内容与所领试剂是否一致" 
+                          Name="SearchInput" 
+                          KeyUp="SearchInput_KeyUp"
+                          Text="{Binding Value,UpdateSourceTrigger=PropertyChanged}"
+                          Margin="8" Height="50" FontSize="22" 
+                          Command="{Binding SearchCmd}" 
+                          />
+                <Button HorizontalAlignment="Center" Grid.Column="1"  Name="KeyBord" Focusable="False" Click="KeyBord_Click" Style="{StaticResource ButtonIcon}" hc:IconElement.Width="40" hc:IconElement.Height="30" Height="50"  hc:IconElement.Geometry="{StaticResource KeyboardGeometry}"></Button>
+            </Grid>
+ 
+
+            <hc:Drawer Name="DrawerBottom"   Dock="Bottom" ShowMask="False">
+                <Border Background="{DynamicResource RegionBrush}" Height="340" BorderThickness="0,1,0,0" BorderBrush="{DynamicResource BorderBrush}">
+                    <Canvas>
+
+                        <local:EnglishKeyBord NotifyEveryCharacter="True" Canvas.Top="10" x:Name="EaBeyBoard" ></local:EnglishKeyBord>
+
+                        <Button Canvas.Top="-30" 
+                                    Canvas.Right="0"  
+                                    Height="80"
+                                    Command="hc:ControlCommands.Close"    
+                                    hc:IconElement.Width="60"
+                                    hc:IconElement.Height="60"   
+                                    Foreground="{DynamicResource PrimaryTextBrush}" 
+                                    Style="{StaticResource ButtonIcon}"
+                                    hc:IconElement.Geometry="{StaticResource DeleteFillCircleGeometry}"/>
+                    </Canvas>
+                </Border>
+            </hc:Drawer>
+        </StackPanel>
+
+        <Grid Grid.Row="2"  Margin="8" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <TextBlock Text="领取清单"></TextBlock>
+            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Grid.Column="1">
+                <Button Command="{Binding EditSelectNumCmd}"
+                        CommandParameter="{Binding ElementName=MyList,Path=SelectedIndex}"
+                        IsEnabled="{Binding ElementName=MyList,Path=HasItems}"
+                        Content="编辑数量" 
+                        Style="{StaticResource BtnPrimary}"></Button>
+                <Button Command="{Binding ClearListCmd}"
+                          IsEnabled="{Binding ElementName=MyList,Path=HasItems}"
+                        Content="清空列表" Margin="20,0,8,0" Style="{StaticResource BtnPrimary}"></Button>
+ 
+            </StackPanel>
+
+            <DataGrid Grid.Row="1" 
+                      Name="MyList"
+                      Grid.ColumnSpan="2" 
+                      Margin="0,8,0,0" 
+                       FontSize="18"
+                      AutoGenerateColumns="False"
+                      Width="Auto"
+                      ItemsSource="{Binding DataList}">
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn  Width="110"   Header="操作">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="领用"
+                                        Command="{Binding DataContext.StockoutCmd,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" CommandParameter="{Binding}" Style="{StaticResource BtnDanger}"></Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn  Width="80"   Header="类型">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="专管"  Padding="5" Background="Red" Foreground="White"  Visibility="{Binding IsMaster,Converter={StaticResource Boolean2VisibilityConverter}}"></TextBlock>
+                                    <TextBlock Text="普通" Padding="5"  Background="LightGreen" Foreground="Black" Visibility="{Binding IsMaster,Converter={StaticResource Boolean2VisibilityReConverter}}"></TextBlock>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+
+                    </DataGridTemplateColumn>
+
+                    <DataGridTextColumn  Width="170"  Binding="{Binding CnName}" Header="名称"/>
+                    <DataGridTemplateColumn  Width="150"   Header="规格">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding Capacity}"></TextBlock>
+                                    <TextBlock Text="{Binding CapacityUnit}"></TextBlock>
+                                    <TextBlock Text=" "></TextBlock>
+                                    <TextBlock Text="{Binding Purity}"></TextBlock>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTextColumn Width="120" FontSize="14"    Binding="{Binding SupplierCompanyName}" Header="供应商"/>
+                    <!--<DataGridTextColumn Width="100"  Binding="{Binding Num}" Header="库存"/>PrepareToStockOutNum-->
+                    <DataGridTextColumn Width="90"  Binding="{Binding Num}" Header="库存"/>
+                    <DataGridTextColumn Width="110" FontSize="14"  Binding="{Binding Weight}" Header="重量"/>
+                    <DataGridTextColumn Width="100"  Binding="{Binding Price}" Header="价格"/>
+                    <!--<DataGridTextColumn Width="100"  Binding="{Binding PrepareToStockOutNum}" Header="出库数量"/>-->
+                    <!--<DataGridTextColumn Width="100"  Binding="{Binding Num}" Header="库存"/>-->
+                    <DataGridTextColumn  Width="160"  Binding="{Binding LocationName}" Header="位置"/>
+                    <!--<DataGridTextColumn Width="120"  Binding="{Binding CreateUserName}" Header="最后领用人"/>-->
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+      
+    </Grid>
+</UserControl>

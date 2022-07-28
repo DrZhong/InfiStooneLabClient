@@ -1,0 +1,43 @@
+<div class="modal-header">
+    <div class="modal-title">编辑绑定 {{i.barCode}}</div>
+</div>
+<sv-container col="2">
+    <sv label="条码">
+        {{i.barCode}}
+    </sv>
+    <sv label="存放位置">
+        {{i.warehouseName}} [{{i.locationName}}]
+    </sv>
+    <sv label="试剂信息">
+        [{{i.reagentNo}} ,{{i.reagentCasNo}}]{{i.reagentCnName}}
+    </sv>
+    <sv label="规格">
+        {{i.capacity}} {{i.capacityUnit}}
+    </sv>
+    <sv label="纯度">
+        {{i.reagentPurity}}
+    </sv>
+    <sv label="批次">
+        {{i.batchNo}}
+    </sv>
+    <sv label="价格">
+        {{i.price}}
+    </sv>
+    <sv label="批次数量">
+        {{i.amount}}
+    </sv>
+    <sv label="在库数量">
+        {{i.realAmount}}
+    </sv>
+</sv-container>
+<form class="mt-md" nz-form #f="ngForm" se-container (ngSubmit)="save()" col="1">
+    <se label="绑定数量">
+        <nz-input-number [(ngModel)]="num" nzMin="1" name="num" required nzPlaceHolder="请输入需要绑定的标签数量"></nz-input-number>
+    </se>
+    <se>
+        <button nz-button nzType="primary" [disabled]="f.invalid">绑定</button>
+    </se>
+</form>
+<div class="modal-footer">
+    <button nz-button type="button" (click)="beforeClose()">关闭</button>
+</div>

@@ -1,0 +1,33 @@
+<page-header title="厂商信息" [action]="extraTpl">
+    <ng-template #extraTpl>
+
+        <button nz-button (click)="create()" nzType="primary">
+            <i nz-icon nzType="plus" class=""></i> 新增
+        </button>
+    </ng-template>
+</page-header>
+
+<form nz-form nzLayout="inline" (ngSubmit)="refresh()" se-container>
+    <se label="类型">
+        <nz-select style="width: 150px;" [(ngModel)]="companyType" name="companyType" nzPlaceHolder="选择类型过滤"
+            nzAllowClear>
+            <nz-option nzLabel="生产商" [nzValue]="0">
+            </nz-option>
+            <nz-option nzLabel="供应商" [nzValue]="1">
+            </nz-option>
+        </nz-select>
+
+    </se>
+    <se label="厂家">
+        <input nz-input [(ngModel)]="filter" name="filter">
+    </se>
+    <se label="联系人">
+        <input nz-input [(ngModel)]="contactName" name="contactName">
+    </se>
+    <se>
+        <button nz-button nzType="primary">搜索</button>
+    </se>
+</form>
+
+<st [data]="dataList" resizable="true" [scroll]="scroll" [ps]="pageSize" [columns]="columns" [total]="totalItems"
+    [loading]="isTableLoading" (change)="change($event)"></st>

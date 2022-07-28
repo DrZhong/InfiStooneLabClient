@@ -1,0 +1,102 @@
+<style>
+    .s-input {
+        width: 120px;
+    }
+</style>
+<page-header title="出库单管理" [action]="extraTpl">
+    <ng-template #extraTpl>
+    </ng-template>
+</page-header>
+
+<form nz-form nzLayout="inline" (ngSubmit)="search()" se-container>
+
+
+    <se label="订单号">
+        <input class="s-input" nz-input [(ngModel)]="filter" name="filter">
+    </se>
+    <se label="存放仓库">
+        <select-warehouse style="width: 120px;" [(ngModel)]="warehouseId" name="warehouseId"></select-warehouse>
+    </se>
+    <!-- <se labelWidth="0">
+        <label nz-checkbox [(ngModel)]="inCludeItems" (ngModelChange)="search()" name="inCludeItems">包含出库单项?</label>
+    </se> -->
+    <ng-container *ngIf="showMore">
+        <se label="状态">
+            <nz-select style="width: 120px;" [(ngModel)]="outOrderStatus" name="outOrderStatus" nzPlaceHolder="请选择"
+                nzAllowClear>
+
+                <nz-option nzLabel="待出库" [nzValue]="0">
+                </nz-option>
+                <nz-option nzLabel="出库完毕" [nzValue]="1">
+                </nz-option>
+                <nz-option nzLabel="取消" [nzValue]="2">
+                </nz-option>
+            </nz-select>
+        </se>
+
+        <se label="申请人">
+            <input class="s-input" nz-input [(ngModel)]="applyUserName" name="applyUserName">
+        </se>
+        <se label="订单类型">
+            <nz-select style="width: 120px;" [(ngModel)]="outOrderType" name="outOrderType" nzPlaceHolder="请选择"
+                nzAllowClear>
+
+                <nz-option nzLabel="专管试剂" [nzValue]="1">
+                </nz-option>
+                <nz-option nzLabel="普通试剂" [nzValue]="2">
+                </nz-option>
+            </nz-select>
+        </se>
+    </ng-container>
+
+
+
+    <se>
+        <a class="mx-sm" (click)="showMore=!showMore">
+            <ng-container *ngIf="showMore;else templateName">
+                &lt;&lt; 隐藏
+            </ng-container>
+            <ng-template #templateName>
+                更多>>
+            </ng-template>
+        </a>
+        <button nz-button nzType="primary">搜索</button>
+    </se>
+</form>
+
+<st #st [data]="dataList" [scroll]="scroll" resizable="true" [ps]="pageSize" [columns]="columns" [total]="totalItems"
+    [loading]="isTableLoading" (change)="change($event)" [expand]="expand" expandRowByClick expandAccordion>
+    <ng-template #expand let-item let-index="index" let-column="column">
+        <ng-container *ngIf="item.outOrderType==1;else templateNameqqq">
+            <st [columns]="masterItemColumn" [scroll]="scroll2" [data]="item.outOrderMasterItems">
+                <ng-template st-row="clientConfirm" let-item let-index="index">
+                    <span [innerHtml]="item.clientConfirm|yn"></span>
+                    &nbsp;
+                    <span (click)="shwoAudit(item)" *ngIf="item.clientConfirm">
+                        <ng-container [ngSwitch]="item.clientConfirmed">
+                            <a *ngSwitchCase="0" class="text-orange" nzColor="error">待审核</a>
+                            <a *ngSwitchCase="1" class="text-blue" nzColor="success">审核通过</a>
+                            <a *ngSwitchCase="2" class="text-red" nzColor="error">审核不通过</a>
+                            <ng-container *ngSwitchDefault></ng-container>
+                        </ng-container>
+                    </span>
+                </ng-template>
+                <ng-template st-row="doubleConfirm" let-item let-index="index">
+                    <span [innerHtml]="item.doubleConfirm|yn"></span>
+                    &nbsp;
+                    <span (click)="shwoAudit(item)" *ngIf="item.doubleConfirm">
+                        <ng-container [ngSwitch]="item.doubleConfirmed">
+                            <a *ngSwitchCase="0" class="text-orange" nzColor="error">待审核</a>
+                            <a *ngSwitchCase="1" class="text-blue" nzColor="success">审核通过</a>
+                            <a *ngSwitchCase="2" class="text-red" nzColor="error">审核不通过</a>
+                            <ng-container *ngSwitchDefault></ng-container>
+                        </ng-container>
+                    </span>
+                </ng-template>
+            </st>
+        </ng-container>
+        <ng-template #templateNameqqq>
+            <st [columns]="commonItemColumn" [scroll]="scroll2" [data]="item.outOrderMasterItems"></st>
+        </ng-template>
+    </ng-template>
+</st>

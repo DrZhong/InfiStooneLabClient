@@ -1,0 +1,8 @@
+{
+  "barCodeWidth": 200,
+  "barCodeHight": 50,
+  "pageWidth": 60,
+  "pageHeight": 40,
+  "Margin": 0,
+  "printerName": "Microsoft Print to PDF"
+}

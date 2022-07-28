@@ -1,0 +1,99 @@
+<style>
+    .s-input {
+        width: 120px;
+    }
+</style>
+<page-header title="专管试剂入库" [action]="extraTpl" [content]="content">
+    <ng-template #content>
+        <span>
+            锁定状态有数字表示此试剂被对应的出库单锁定
+        </span>
+    </ng-template>
+    <ng-template #extraTpl>
+        <button class="ml-md" nz-button (click)="refresh()" nzType="primary">
+            <i nz-icon nzType="reload"></i> 刷新
+        </button>
+        <button class="ml-md" nz-button (click)="create()" nzType="primary" nzDanger="true">
+            <i nz-icon nzType="plus"></i> 标签绑定
+        </button>
+    </ng-template>
+</page-header>
+
+<form nz-form nzLayout="inline" (ngSubmit)="search()" se-container>
+
+    <se label="试剂编号">
+        <input class="s-input" nz-input [(ngModel)]="reagentNo" name="reagentNo">
+    </se>
+
+    <se label="Cas号">
+        <input class="s-input" nz-input [(ngModel)]="reagentCasNo" name="reagentCasNo">
+    </se>
+    <se label="存放仓库">
+        <select-warehouse style="width: 120px;" [(ngModel)]="warehouseId" name="warehouseId"></select-warehouse>
+    </se>
+
+    <ng-container *ngIf="showMore">
+        <se label="批次号">
+            <input class="s-input" nz-input [(ngModel)]="batchNo" name="batchNo">
+        </se>
+
+        <se label="条形码">
+            <input class="s-input" nz-input [(ngModel)]="barCode" name="barCode">
+        </se>
+
+
+        <se label="试剂名称">
+            <input class="s-input" nz-input [(ngModel)]="filter" name="filter">
+        </se>
+        <se label="供应商">
+            <input class="s-input" nz-input [(ngModel)]="supplierCompanyName" name="supplierCompanyName">
+        </se>
+        <se label="状态">
+            <nz-select style="width: 120px;" [(ngModel)]="stockStatus" name="stockStatus" nzPlaceHolder="请选择"
+                nzAllowClear>
+                <nz-option nzLabel="待入库" [nzValue]="0">
+                </nz-option>
+                <nz-option nzLabel="在库" [nzValue]="1">
+                </nz-option>
+                <nz-option nzLabel="离库" [nzValue]="2">
+                </nz-option>
+                <nz-option nzLabel="已用完" [nzValue]="3">
+                </nz-option>
+            </nz-select>
+        </se>
+    </ng-container>
+    <se>
+        <a class="mx-sm" (click)="showMore=!showMore">
+            <ng-container *ngIf="showMore;else templateName">
+                &lt;&lt; 隐藏
+            </ng-container>
+            <ng-template #templateName>
+                更多>>
+            </ng-template>
+        </a>
+        <button nz-button nzType="primary">搜索</button>
+    </se>
+</form>
+
+<st #st [data]="dataList" [scroll]="scroll" resizable="true" [ps]="pageSize" [columns]="columns" [total]="totalItems"
+    [loading]="isTableLoading" (change)="change($event)">
+    <ng-template st-row="clientConfirm" let-item let-index="index">
+        <span [innerHtml]="item.clientConfirm|yn"></span>
+        &nbsp;
+        <span (click)="shwoAudit(item)" *ngIf="item.clientConfirm">
+            <a class="text-blue" *ngIf="item.clientConfirmed" nzColor="success">审核通过</a>
+            <a class="text-red" *ngIf="!item.clientConfirmed" nzColor="error">待审核</a>
+        </span>
+    </ng-template>
+    <ng-template st-row="doubleConfirm" let-item let-index="index">
+        <span [innerHtml]="item.doubleConfirm|yn"></span>
+        &nbsp;
+        <span (click)="shwoAudit(item)" *ngIf="item.doubleConfirm">
+            <a class="text-blue" *ngIf="item.doubleConfirmed" nzColor="success">审核通过</a>
+            <a class="text-red" *ngIf="!item.doubleConfirmed" nzColor="error">待审核</a>
+        </span>
+    </ng-template>
+    <ng-template st-row="reagentNo" let-item let-index="index">
+        <span>[<a (click)="show(item.reagentId)">{{item.reagentNo}}</a>,{{item.casNo}}]{{item.reagentCnName}}</span>
+    </ng-template>
+</st>

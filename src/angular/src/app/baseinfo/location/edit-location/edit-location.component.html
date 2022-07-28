@@ -1,0 +1,37 @@
+<div class="modal-header">
+    <div class="modal-title">编辑库位</div>
+</div>
+<nz-spin *ngIf="!enumberEntityDto" class="modal-spin"></nz-spin>
+<ng-container *ngIf="enumberEntityDto">
+    <form nz-form #f="ngForm" se-container>
+        <se label="所属仓库" col="1" required>
+            <select-warehouse [(ngModel)]="record.warehouseId" required name="warehouseId"></select-warehouse>
+            <!-- <nz-select [(ngModel)]="record.warehouseId" required name="warehouseId" nzPlaceHolder="选择所属仓库" nzAllowClear>
+                <nz-option *ngFor="let item of wareHouses" [nzLabel]="item.name" [nzValue]="item.id">
+                </nz-option>
+            </nz-select> -->
+        </se>
+        <se label="位置名称" required>
+            <input nz-input required [(ngModel)]="record.name" name="name">
+        </se>
+        <se label="位置试剂数量限制" extra="填写0表示没有数量限制" required>
+            <nz-input-number [(ngModel)]="record.countLimit" name="countLimit" id="countLimit"
+                [nzPlaceHolder]="'填写0表示没有数量限制'"></nz-input-number>
+            <!-- <input nz-input required [(ngModel)]="record.countLimit" name="countLimit"> -->
+        </se>
+        <se label="状态">
+            <label nz-checkbox [(ngModel)]="record.isActive" name="isActive">启用</label>
+        </se>
+        <se label="存储属性" col="1">
+            <nz-checkbox-group [(ngModel)]="checkOptions"></nz-checkbox-group>
+        </se>
+        <se col="1">
+
+        </se>
+        <div class="modal-footer" style="    width: 100%;
+        margin: 0;">
+            <button nz-button type="button" (click)="close()">关闭</button>
+            <button nz-button (click)="save()" nzType="primary" [disabled]="f.invalid">保存</button>
+        </div>
+    </form>
+</ng-container>

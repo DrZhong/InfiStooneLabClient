@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <VersionPrefix>1.0.0.0</VersionPrefix>
+    <TargetFramework>net6.0</TargetFramework>
+    <AssetTargetFallback>$(AssetTargetFallback);portable-net45+win8+wp8+wpa81;</AssetTargetFallback>
+    <AssemblyName>Guoxu.LabManager.Application</AssemblyName>
+    <PackageId>Guoxu.LabManager.Application</PackageId>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <RootNamespace>Guoxu.LabManager</RootNamespace>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Guoxu.LabManager.Core\Guoxu.LabManager.Core.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="System\Dto\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="MiniExcel" Version="1.24.3" />
+  </ItemGroup>
+</Project>

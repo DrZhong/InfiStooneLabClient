@@ -1,0 +1,74 @@
+<style>
+    .s-input {
+        width: 120px;
+    }
+</style>
+<page-header title="试剂信息" [action]="extraTpl">
+    <ng-template #extraTpl>
+
+        <label nz-checkbox [(ngModel)]="showCnAliasName" (ngModelChange)="checkChange($event)">中文别名</label>
+        <label nz-checkbox [(ngModel)]="showEnName" (ngModelChange)="checkChange($event)">英文名</label>
+        <label nz-checkbox [(ngModel)]="showSafeAttribute" (ngModelChange)="checkChange($event)">安全属性</label>
+        <label nz-checkbox [(ngModel)]="showStorageCondition" (ngModelChange)="checkChange($event)">存储条件</label>
+
+        <label nz-checkbox [(ngModel)]="showProductionCompany" (ngModelChange)="checkChange($event)">生产商</label>
+        <label nz-checkbox [(ngModel)]="showSupplierCompany" (ngModelChange)="checkChange($event)">供应商</label>
+
+        <button class="ml-md" nz-button (click)="deleted()" nzDanger>
+            <i nz-icon nzType="plus" class=""></i> 已删除试剂
+        </button>
+        <button class="ml-md" nz-button (click)="excel()" nzType="primary">
+            <i nz-icon nzType="file" class=""></i> 导入
+        </button>
+        <button class="ml-md" nz-button (click)="create()" nzType="primary">
+            <i nz-icon nzType="plus" class=""></i> 新增
+        </button>
+    </ng-template>
+</page-header>
+
+<form nz-form nzLayout="inline" (ngSubmit)="refresh()" se-container>
+    <se label="编号">
+        <input class="s-input" nz-input style="width: 120px;" [(ngModel)]="no" name="no">
+    </se>
+    <se label="Cas号">
+        <input class="s-input" nz-input [(ngModel)]="casNo" name="casNo">
+    </se>
+    <se label="试剂名称">
+        <input class="s-input" nz-input [(ngModel)]="filter" name="filter">
+    </se>
+    <se label="生产商">
+        <input class="s-input" nz-input [(ngModel)]="supplierCompanyName" name="supplierCompanyName">
+    </se>
+    <se label="供应商">
+        <input class="s-input" nz-input [(ngModel)]="productionCompanyName" name="productionCompanyName">
+    </se>
+    <se label="类型">
+        <nz-select style="width: 120px;" nzMode="multiple" [(ngModel)]="reagentCatalog" name="reagentCatalog"
+            nzPlaceHolder="请选择" nzAllowClear>
+            <nz-option nzLabel="常规试剂" [nzValue]="0">
+            </nz-option>
+            <nz-option nzLabel="标品试剂" [nzValue]="1">
+            </nz-option>
+            <nz-option nzLabel="专管试剂" [nzValue]="2">
+            </nz-option>
+        </nz-select>
+    </se>
+    <se label="试剂状态">
+        <nz-select style="width: 120px;" [(ngModel)]="reagentStatus" name="reagentStatus" nzPlaceHolder="选择存储属性过滤"
+            nzAllowClear>
+            <nz-option nzLabel="液体" [nzValue]="0">
+            </nz-option>
+            <nz-option nzLabel="固体" [nzValue]="1">
+            </nz-option>
+            <nz-option nzLabel="气体" [nzValue]="2">
+            </nz-option>
+        </nz-select>
+    </se>
+    <se>
+        <button nz-button nzType="primary">搜索</button>
+    </se>
+</form>
+
+<st #st [data]="dataList" [scroll]="scroll" resizable="true" [ps]="pageSize" [columns]="columns" [total]="totalItems"
+    [loading]="isTableLoading" (change)="change($event)">
+</st>

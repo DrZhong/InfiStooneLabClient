@@ -1,0 +1,57 @@
+<div class="alain-default__header-logo">
+  <a [routerLink]="['/']" class="alain-default__header-logo-link">
+    <img class="alain-default__header-logo-expanded" src="./assets/images/logos/infistoone.png"
+      alt="{{settings.app.name}}" style="max-height:40px;" />
+    <img class="alain-default__header-logo-collapsed" src="./assets/images/logos/infistoone-min.png"
+      alt="{{settings.app.name}}" style="max-height:30px;" />
+  </a>
+</div>
+<div class="alain-default__nav-wrap">
+  <ul class="alain-default__nav">
+    <!-- Menu -->
+    <li>
+      <div class="alain-default__nav-item" (click)="toggleCollapsedSideabar()">
+        <i nz-icon *ngIf="!settings.layout.collapsed" nzType="menu-fold" theme="outline"></i>
+        <i nz-icon *ngIf="settings.layout.collapsed" nzType="menu-unfold" theme="outline"></i>
+      </div>
+    </li>
+  </ul>
+  <!-- <header-search class="alain-default__search" [toggleChange]="searchToggleStatus"></header-search> -->
+  <ul class="alain-default__nav">
+
+    <header-languageswitch></header-languageswitch>
+
+    <li class="hidden-xs">
+
+      <div nz-dropdown nzPlacement="bottomRight" [nzDropdownMenu]="settingMenuTpl">
+
+        <i nz-icon nzType="setting" style="font-size: 20px" nzTheme="outline"></i>
+      </div>
+      <nz-dropdown-menu #settingMenuTpl="nzDropdownMenu">
+        <div nz-menu style="width:200px;">
+          <div nz-menu-item>
+            <header-fullscreen></header-fullscreen>
+          </div>
+          <div nz-menu-item>
+            <div nzLayout="inline" se-container>
+              <se label="主题">
+                <label nz-checkbox name="compact" (ngModelChange)="changeTheme($event)"
+                  [(ngModel)]="compact">紧凑型</label>
+              </se>
+            </div>
+
+            <!-- <header-storage></header-storage> -->
+          </div>
+        </div>
+      </nz-dropdown-menu>
+    </li>
+
+    <li class="hidden-xs">
+      <header-notify></header-notify>
+    </li>
+
+    <li class="hidden-xs">
+      <header-user></header-user>
+    </li>
+  </ul>
+</div>

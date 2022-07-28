@@ -1,0 +1,69 @@
+<style>
+    .s-input {
+        width: 120px;
+    }
+</style>
+<page-header title="普通试剂库存查询" [action]="extraTpl">
+    <ng-template #extraTpl>
+        <!-- <button class="ml-md" nz-button (click)="create()" nzType="primary" nzDanger="true">
+            <i nz-icon nzType="plus" class=""></i> 标签绑定
+        </button> -->
+    </ng-template>
+</page-header>
+
+<form nz-form nzLayout="inline" (ngSubmit)="search()" se-container>
+
+    <se label="试剂编号">
+        <input class="s-input" nz-input [(ngModel)]="no" name="no">
+    </se>
+    <se label="Cas号">
+        <input class="s-input" nz-input [(ngModel)]="casNo" name="casNo">
+    </se>
+    <se label="库存状况">
+        <nz-select style="width: 120px;" [(ngModel)]="stockStatus" name="stockStatus" nzPlaceHolder="请选择" nzAllowClear>
+            <nz-option nzLabel="濒临过期" [nzValue]="1">
+            </nz-option>
+            <nz-option nzLabel="已过期" [nzValue]="2">
+            </nz-option>
+            <nz-option nzLabel="库存紧张" [nzValue]="3">
+            </nz-option>
+        </nz-select>
+    </se>
+    <se labelWidth="0">
+        <label nz-checkbox [(ngModel)]="stockShouldMoreZero" name="stockShouldMoreZero">
+            库存大于0
+        </label>
+    </se>
+    <ng-container *ngIf="showMore">
+        <se label="纯度">
+            <select-purity [(ngModel)]="purity"></select-purity>
+        </se>
+        <se label="试剂名称">
+            <input class="s-input" nz-input [(ngModel)]="filter" name="filter">
+        </se>
+        <se label="存储条件">
+            <select-storage-condition [(ngModel)]="storageCondition"></select-storage-condition>
+        </se>
+        <se label="存放仓库">
+            <select-warehouse style="width: 120px;" [(ngModel)]="warehouseId" name="warehouseId"></select-warehouse>
+        </se>
+    </ng-container>
+    <se>
+        <a class="mx-sm" (click)="showMore=!showMore">
+            <ng-container *ngIf="showMore;else templateName">
+                &lt;&lt; 隐藏
+            </ng-container>
+            <ng-template #templateName>
+                更多>>
+            </ng-template>
+        </a>
+        <button nz-button nzType="primary">搜索</button>
+    </se>
+</form>
+
+<st #st [data]="dataList" [scroll]="scroll" resizable="true" [ps]="pageSize" [columns]="columns" [total]="totalItems"
+    [loading]="isTableLoading" (change)="change($event)">
+    <ng-template st-row="no" let-item let-index="index">
+        <span> <a (click)="show(item.id)">{{item.no}}</a> </span>
+    </ng-template>
+</st>

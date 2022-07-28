@@ -1,0 +1,14 @@
+<div class="modal-header">
+    <div class="modal-title">设置</div>
+</div>
+<form nz-form #f="ngForm">
+    <div se-container="1">
+        <se label="隐藏Tab页">
+            <nz-switch (ngModelChange)="ngModelChange($event)" [(ngModel)]="opp" name="opp" nzCheckedChildren="开"
+                nzUnCheckedChildren="关"></nz-switch>
+        </se>
+    </div>
+    <div class="modal-footer">
+        <button nz-button type="button" (click)="close()">关闭</button>
+    </div>
+</form>

@@ -1,0 +1,65 @@
+<style>
+    .s-input {
+        width: 120px;
+    }
+</style>
+<page-header title="专管出库双人双锁审核" [action]="extraTpl">
+    <ng-template #extraTpl>
+        <button class="ml-md" nz-button (click)="refresh()" nzType="primary">
+            <i nz-icon nzType="reload"></i> 刷新
+        </button>
+    </ng-template>
+</page-header>
+
+<form nz-form nzLayout="inline" (ngSubmit)="search()" se-container>
+    <se label="试剂名称">
+        <input class="s-input" nz-input [(ngModel)]="filter" name="filter">
+    </se>
+    <se label="存放仓库">
+        <select-warehouse style="width: 120px;" [(ngModel)]="warehouseId" name="warehouseId"></select-warehouse>
+    </se>
+    <se>
+        <nz-radio-group [(ngModel)]="audited" (ngModelChange)="search()" nzButtonStyle="solid">
+            <label nz-radio-button [nzValue]="0">待审核</label>
+            <label nz-radio-button [nzValue]="1">审核通过</label>
+            <label nz-radio-button [nzValue]="2">审核不通过</label>
+        </nz-radio-group>
+    </se>
+    <se>
+        <button nz-button nzType="primary">搜索</button>
+    </se>
+</form>
+
+<st #st [data]="dataList" [scroll]="scroll" resizable="true" [ps]="pageSize" [columns]="columns" [total]="totalItems"
+    [loading]="isTableLoading" (change)="change($event)">
+    <ng-template st-row="clientConfirm" let-item let-index="index">
+        <span [innerHtml]="item.clientConfirm|yn"></span>
+        &nbsp;
+        <span (click)="shwoAudit(item)" *ngIf="item.clientConfirm">
+            <ng-container [ngSwitch]="item.clientConfirmed">
+                <a *ngSwitchCase="0" class="text-orange" nzColor="error">待审核</a>
+                <a *ngSwitchCase="1" class="text-blue" nzColor="success">审核通过</a>
+                <a *ngSwitchCase="2" class="text-red" nzColor="error">审核不通过</a>
+                <ng-container *ngSwitchDefault></ng-container>
+            </ng-container>
+        </span>
+    </ng-template>
+    <ng-template st-row="doubleConfirm" let-item let-index="index">
+        <span [innerHtml]="item.doubleConfirm|yn"></span>
+        &nbsp;
+        <span (click)="shwoAudit(item)" *ngIf="item.doubleConfirm">
+            <ng-container [ngSwitch]="item.doubleConfirmed">
+                <a *ngSwitchCase="0" class="text-orange" nzColor="error">待审核</a>
+                <a *ngSwitchCase="1" class="text-blue" nzColor="success">审核通过</a>
+                <a *ngSwitchCase="2" class="text-red" nzColor="error">审核不通过</a>
+                <ng-container *ngSwitchDefault></ng-container>
+            </ng-container>
+            <!-- <a class="text-blue" *ngIf="item.doubleConfirmed" nzColor="success">审核通过</a>
+            <a class="text-red" *ngIf="!item.doubleConfirmed" nzColor="error">待审核</a> -->
+        </span>
+    </ng-template>
+    <ng-template st-row="reagentNo" let-item let-index="index">
+        <span>[<a
+                (click)="show(item.reagentId)">{{item.reagentNo}}</a>,{{item.reagentCasNo}}]{{item.reagentCnName}}</span>
+    </ng-template>
+</st>

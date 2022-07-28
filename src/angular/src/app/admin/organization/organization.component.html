@@ -1,0 +1,79 @@
+<page-header [title]="l('组织架构')"></page-header>
+<div nz-row nzGutter="16">
+    <div class="gutter-box" nz-col nzSpan="8">
+        <nz-card nzSize="small" [nzExtra]="extraTpl">
+            <ng-template #extraTpl>
+                <button nz-button (click)="refresh()">
+                    <i nz-icon nzType="search"></i>
+                    刷新
+                </button>
+                <button nz-button (click)="create()" nzType="primary">
+                    <i nz-icon nzType="plus"></i>
+                    添加根部门
+                </button>
+            </ng-template>
+            <nz-skeleton [nzLoading]="isTableLoading">
+                <nz-alert *ngIf="nodes.length==0" nzType="warning" nzMessage="暂无组织架构"></nz-alert>
+
+                <!-- <div class="mb-sm" *ngIf="nodes.length!=0">
+                    <nz-input-group [nzSuffix]="suffixIcon">
+                        <input type="text" nz-input placeholder="Search" [(ngModel)]="searchValue" />
+                    </nz-input-group>
+                    <ng-template #suffixIcon>
+                        <i nz-icon nzType="search"></i>
+                    </ng-template>
+                </div> -->
+                <nz-tree #tree [nzData]="nodes" nzDraggable nzBlockNode [nzSearchValue]="searchValue"
+                    [nzTreeTemplate]="nzTreeTemplate" (nzContextMenu)="contextMenu($event, menu)"
+                    (nzClick)="activeNode($event)" (nzOnDragStart)="mouseAction('dragstart',$event)"
+                    (nzOnDragEnter)="mouseAction('enter',$event)" (nzOnDragLeave)="mouseAction('leave', $event)"
+                    (nzOnDrop)="mouseAction('drop', $event)" (nzOnDragEnd)="mouseAction('end', $event)">
+                    <ng-template #multiExpandedIconTpl let-node let-origin="origin">
+                        <i *ngIf="!node.isLeaf" nz-icon [nzType]="node.isExpanded ? 'folder-open' : 'folder'"></i>
+                        <i *ngIf="node.isLeaf" nz-icon nzType="file"></i>
+                    </ng-template>
+                </nz-tree>
+                <ng-template #nzTreeTemplate let-node>
+                    <span title="{{ node?.origin?.sort | number }}" [class.active]="activedNode?.key === node.key">
+                        <span *ngIf="!node.isLeaf">
+                            <i nz-icon [nzType]="node.isExpanded ? 'folder-open' : 'folder'"
+                                (click)="openFolder(node)"></i>
+                            <span class="folder-name"> &nbsp;{{ node.title }}</span> &nbsp;
+                        </span>
+                        <span *ngIf="node.isLeaf">
+                            <i nz-icon nzType="file"></i>
+                            <span class="file-name"> &nbsp;{{ node.title }}</span> &nbsp;
+                        </span>
+                    </span>
+                </ng-template>
+
+                <nz-dropdown-menu #menu="nzDropdownMenu">
+                    <ul nz-menu>
+                        <li nz-menu-item (click)="selectDropdown()">添加子部门</li>
+                        <li nz-menu-item (click)="updateNode()">修改部门</li>
+                        <li nz-menu-item (click)="deleteNode()">删除部门</li>
+                    </ul>
+                </nz-dropdown-menu>
+            </nz-skeleton>
+
+
+
+        </nz-card>
+    </div>
+    <div nz-col class="gutter-box" nzSpan="16">
+        <nz-card nzSize="small" [nzExtra]="extraTpl2" nzTitle="{{activeOrg.displayName}} 部门成员" *ngIf="activeOrg">
+            <st [data]="users" [columns]="columns" [total]="totalItems" [loading]="loadingUser" (change)="show($event)">
+            </st>
+            <ng-template #extraTpl2>
+                <button nz-button (click)="loadUser(1)">
+                    <i nz-icon nzType="reload"></i>
+                    刷新
+                </button>
+                <button nz-button (click)="selectUser()" nzType="primary">
+                    <i nz-icon nzType="plus"></i>
+                    选择用户
+                </button>
+            </ng-template>
+        </nz-card>
+    </div>
+</div>

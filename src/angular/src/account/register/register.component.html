@@ -1,0 +1,47 @@
+﻿<nz-spin [nzSpinning]="submitting">
+    <div class="login-form">
+        <form nz-form #f="ngForm" se-container="1" labelWidth="0" (ngSubmit)="submit()">
+            <nz-divider class="my-md" nzText="注册"></nz-divider>
+            <se error="请输入用户名">
+                <nz-input-group nzPrefixIcon="user">
+                    <input type="text" nz-input [(ngModel)]="model.userName" name="userName" placeholder="输入用户名"
+                        required />
+                </nz-input-group>
+
+            </se>
+            <se error="请输入邮箱">
+                <nz-input-group nzPrefixIcon="mail">
+                    <input type="text" nz-input [(ngModel)]="model.emailAddress" name="emailAddress" placeholder="输入邮箱"
+                        required />
+                </nz-input-group>
+
+            </se>
+            <!-- <se error="请输入姓氏">
+                <nz-input-group nzPrefixIcon="user">
+                    <input type="text" nz-input [(ngModel)]="model.surname" name="surname" placeholder="请输入姓氏"
+                        required />
+                </nz-input-group>
+
+            </se> -->
+            <se error="请输入名字">
+                <nz-input-group nzPrefixIcon="user">
+                    <input type="text" nz-input [(ngModel)]="model.name" name="name" placeholder="请输入姓名" required />
+                </nz-input-group>
+
+            </se>
+            <se error="请填写，最多32位">
+                <nz-input-group nzPrefixIcon="lock">
+                    <input type="password" nz-input [(ngModel)]="model.password" name="password" required
+                        placeholder="输入密码" maxlength="32" />
+                </nz-input-group>
+
+            </se>
+
+            <se class="my-md">
+
+                <button nz-button nzBlock="true" nzSize="large" class="ant-btn__block" nzType="primary"
+                    [disabled]="f.invalid">注 册</button>
+            </se>
+        </form>
+    </div>
+</nz-spin>

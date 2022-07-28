@@ -1,0 +1,34 @@
+<page-header [title]="l('消息')" [action]="extraTpl">
+    <ng-template #extraTpl>
+
+        <button nz-button nz-popconfirm nzPopconfirmTitle="你确定要把所有消息设置为已读吗?" (nzOnConfirm)="setAllAsRead()"
+            nzType="primary">
+            <i nz-icon nzType="clear" class=""></i> 全部设置为已读
+        </button>
+    </ng-template>
+</page-header>
+
+
+<form nz-form nzLayout="inline" #f="ngForm" se-container class="ant-advanced-search-form">
+    <se label="时间范围">
+        <nz-range-picker [(ngModel)]="dateRange" name="dateRange">
+        </nz-range-picker>
+    </se>
+
+    <se label="用户">
+        <input nz-input [(ngModel)]="state" name="state">
+
+    </se>
+    <se>
+        <button cdkDrag nz-button nzType="primary" (click)="refresh()">搜索</button>
+    </se>
+</form>
+
+
+<div class="search-result-list">
+    <st [data]="dataList" [ps]="pageSize" [columns]="columns" [total]="totalItems" [loading]="isTableLoading"
+        (change)="change($event)">
+
+    </st>
+
+</div>

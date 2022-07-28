@@ -1,0 +1,31 @@
+﻿<nz-spin [nzSpinning]="submitting">
+  <div class="login-form">
+    <form nz-form #f="ngForm" se-container="1" labelWidth="0" (ngSubmit)="submit()">
+      <nz-divider class="my-md" nzText="登录"></nz-divider>
+      <se error="请输入用户名或手机号">
+        <nz-input-group nzPrefixIcon="user">
+          <input type="text" nz-input [(ngModel)]="loginModel.userNameOrEmailAddress" name="userNameOrEmailAddress"
+            placeholder="输入用户名或手机号" required />
+        </nz-input-group>
+
+      </se>
+      <se error="请填写，最多32位">
+        <nz-input-group nzPrefixIcon="lock">
+          <input type="password" nz-input [(ngModel)]="loginModel.password" name="password" required placeholder="请输入密码"
+            maxlength="32" />
+        </nz-input-group>
+
+      </se>
+      <se>
+        <label nz-checkbox [(ngModel)]="loginModel.rememberClient" name="rememberClient">
+          <span>{{l("RememberMe")}}</span>
+        </label>
+      </se>
+      <se class="my-md">
+
+        <button nz-button nzBlock="true" nzSize="large" class="ant-btn__block" nzType="primary"
+          [disabled]="f.invalid">登录</button>
+      </se>
+    </form>
+  </div>
+</nz-spin>

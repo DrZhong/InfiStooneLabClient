@@ -1,0 +1,39 @@
+<div class="modal-header">
+    <div class="modal-title">专管试剂 {{record.no}} 详情</div>
+</div>
+<sv-container>
+    <div class="my-md">
+        <form nz-form nzLayout="inline" (ngSubmit)="search()" se-container>
+
+
+            <!-- <se label="存放仓库">
+                <select-warehouse style="width: 120px;" [(ngModel)]="warehouseId" name="warehouseId"></select-warehouse>
+            </se> -->
+            <se label="库存状况">
+                <nz-select style="width: 120px;" [(ngModel)]="stockStatus" name="stockStatus" nzPlaceHolder="请选择"
+                    nzAllowClear>
+
+                    <nz-option nzLabel="濒临过期" [nzValue]="1">
+                    </nz-option>
+                    <nz-option nzLabel="已过期" [nzValue]="2">
+                    </nz-option>
+                </nz-select>
+            </se>
+            <se>
+                <button nz-button nzType="primary">搜索</button>
+            </se>
+        </form>
+    </div>
+    <div style="width: 100%;">
+        <st #st [data]="dataList" [scroll]="scroll" resizable="true" [ps]="pageSize" [columns]="columns"
+            [total]="totalItems" [loading]="isTableLoading" (change)="change($event)">
+            <ng-template st-row="reagentNo" let-item let-index="index">
+                <span>[<a
+                        (click)="show(item.reagentId)">{{item.reagentNo}}</a>,{{item.reagentCasNo}}]{{item.reagentCnName}}</span>
+            </ng-template>
+        </st>
+    </div>
+</sv-container>
+<div class="modal-footer">
+    <button nz-button type="button" (click)="close()">关闭</button>
+</div>

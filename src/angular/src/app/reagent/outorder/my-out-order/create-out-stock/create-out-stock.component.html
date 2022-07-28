@@ -1,0 +1,104 @@
+<div class="modal-header">
+    <div class="modal-title">新建出库单</div>
+</div>
+<sf #sf mode="edit" [schema]="schema" [formData]="i" button="none">
+
+    <ng-container *ngIf="selecteOutOrderType==1;else elseTemplateName">
+        <div class="my-sm text-right">
+            <button nz-button type="button" [nzType]="'primary'" (click)="selectMaster(sf.value)">选择专管试剂</button>
+        </div>
+        <nz-table [nzData]="masterItems" nzSize="small" [nzScroll]="{x:'400px'}" [nzShowPagination]="false">
+            <thead>
+                <tr>
+                    <th>条码</th>
+                    <th>存放位置</th>
+                    <th>试剂信息</th>
+                    <th>纯度</th>
+                    <th>规格</th>
+                    <th>批次</th>
+                    <th>供应商</th>
+                    <th nzRight>移除</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let i of masterItems;let index=index">
+                    <td nzEllipsis>
+                        {{i.barCode}}
+                    </td>
+                    <td nzEllipsis>
+                        {{i.warehouseName}} {{i.reagentSafeAttribute == 1 ? '易制毒' : '易制爆'}}
+                    </td>
+                    <td nzEllipsis>
+                        {{i.reagentNo}},{{i.casNo}}]{{i.reagentCnName}}
+                    </td>
+                    <td nzEllipsis>
+                        {{i.capacity}} {{i.capacityUnit}}
+                    </td>
+                    <td>
+                        {{i.reagentPurity}}
+                    </td>
+                    <td nzEllipsis>
+                        {{i.batchNo}}
+                    </td>
+                    <td nzEllipsis>
+                        {{i.supplierCompanyName}}
+                    </td>
+                    <td>
+                        <a (click)="removeMaster(index)">移除</a>
+                    </td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </ng-container>
+    <ng-template #elseTemplateName>
+        <div class="my-sm text-right">
+            <button nz-button type="button" [nzType]="'primary'" (click)="selectCommon(sf.value)">选择普通试剂</button>
+        </div>
+        <nz-table [nzData]="commonItems" nzSize="small" [nzShowPagination]="false">
+            <thead>
+                <tr>
+                    <th>存放位置</th>
+                    <th>试剂信息</th>
+                    <th>纯度</th>
+                    <th>规格</th>
+                    <th>库存</th>
+                    <th>出库数量</th>
+                    <th>移除</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let i of commonItems;let index=index">
+                    <td>
+                        {{i.locationName}}
+                    </td>
+                    <td>
+                        [{{i.no}},{{i.casNo}}]{{i.cnName}}
+                    </td>
+                    <td>
+                        {{i.purity}}
+                    </td>
+                    <td>
+                        {{i.capacity}} {{i.capacityUnit}}
+                    </td>
+                    <td>
+                        {{i.num|number}}
+                    </td>
+                    <td>
+                        <nz-input-number [(ngModel)]="i['stockoutAccount']" name="num+{{index}}"
+                            [nzPlaceHolder]="'输入出库数量'">
+                        </nz-input-number>
+                    </td>
+                    <td>
+                        <a (click)="removeCommon(index)">移除</a>
+                    </td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </ng-template>
+
+    <div class="modal-footer">
+        <button nz-button type="button" (click)="close()">关闭</button>
+        <button nz-button type="submit" [nzType]="'primary'" (click)="save(sf.value)" [disabled]="!sf.valid"
+            [nzLoading]="loading">创建</button>
+    </div>
+</sf>

@@ -1,0 +1,13 @@
+<div class="modal-header">
+    <div class="modal-title">试剂 {{i.barCode}} 出入库记录</div>
+</div>
+
+<div>
+    <st #st [data]="dataList" [scroll]="scroll" resizable="true" [ps]="pageSize" [columns]="columns"
+        [total]="totalItems" [loading]="isTableLoading" (change)="change($event)">
+        <ng-template st-row="reagentNo" let-item let-index="index">
+            <span> <a (click)="show(item.reagentId)">{{item.reagentNo}}</a> </span>
+        </ng-template>
+    </st>
+
+</div>

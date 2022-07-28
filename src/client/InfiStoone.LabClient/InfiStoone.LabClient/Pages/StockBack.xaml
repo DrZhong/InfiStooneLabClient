@@ -1,0 +1,221 @@
+﻿<UserControl x:Class="InfiStoone.LabClient.Pages.StockBack"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+               xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:local="clr-namespace:InfiStoone.LabClient.Pages"
+             DataContext="{Binding StockBack, Source={StaticResource Locator}}"
+                       mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="1024">
+    <UserControl.Resources>
+        <Style BasedOn="{StaticResource TextBlockDefault}" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="20"></Setter>
+            <Setter Property="HorizontalAlignment" Value="Left"></Setter>
+        </Style>
+    </UserControl.Resources>
+    <hc:Interaction.Triggers>
+        <hc:EventTrigger EventName="Loaded" >
+            <hc:InvokeCommandAction Command="{Binding PageInitCmd}"    />
+        </hc:EventTrigger>
+        <hc:EventTrigger EventName="Unloaded" >
+            <hc:InvokeCommandAction Command="{Binding PageOutCmd}"    />
+        </hc:EventTrigger>
+    </hc:Interaction.Triggers>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"></RowDefinition>
+            <RowDefinition Height="70"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" Margin="8" Orientation="Horizontal">
+                <Button  
+                        Margin="0,0,5,0" 
+                    Height="40" hc:IconElement.Width="20"
+                        Style="{StaticResource ButtonIcon}"  
+                        hc:IconElement.Geometry="{StaticResource PageModeGeometry}"></Button>
+                <TextBlock Style="{StaticResource TextBlockLarge}" Text="试剂归还"></TextBlock>
+
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Right" Grid.Column="1" Margin="8" Orientation="Horizontal">
+                <Button  Command="{Binding GoHomeCmd}"  Style="{StaticResource BtnPrimary}" hc:IconElement.Geometry="{StaticResource LeftGeometry}"  Content="返回"></Button>
+            </StackPanel>
+        </Grid>
+
+        <StackPanel Grid.Row="1"  >
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition Width="100"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <hc:SearchBar Style="{StaticResource SearchBarPlus}"  
+                          hc:InfoElement.Placeholder="请持扫码枪扫描试剂瓶条形码，听到滴一声后，确定归还清单中内容与所领试剂是否一致" 
+                          Name="SearchInput" 
+                          KeyUp="SearchInput_KeyUp"
+                          Margin="8" Height="50" FontSize="22" 
+                          Text="{Binding Value,UpdateSourceTrigger=PropertyChanged}"
+                          Command="{Binding SearchCmd}"  />
+                <Button HorizontalAlignment="Center" Grid.Column="1" Focusable="False"  Name="KeyBord" Click="KeyBord_Click" Style="{StaticResource ButtonIcon}" hc:IconElement.Width="40" hc:IconElement.Height="30" Height="50"  hc:IconElement.Geometry="{StaticResource KeyboardGeometry}"></Button>
+            </Grid>
+
+
+            <hc:Drawer Name="DrawerBottom"   Dock="Bottom" ShowMask="False">
+                <Border Background="{DynamicResource RegionBrush}" Height="340" BorderThickness="0,1,0,0" BorderBrush="{DynamicResource BorderBrush}">
+                    <Canvas>
+
+                        <local:EnglishKeyBord NotifyEveryCharacter="True" Canvas.Top="10" x:Name="EaBeyBoard" ></local:EnglishKeyBord>
+
+                        <Button Canvas.Top="-30" 
+                                    Canvas.Right="0"  
+                                    Height="80"
+                                    Command="hc:ControlCommands.Close"    
+                                    hc:IconElement.Width="60"
+                                    hc:IconElement.Height="60"   
+                                    Foreground="{DynamicResource PrimaryTextBrush}" 
+                                    Style="{StaticResource ButtonIcon}"
+                                    hc:IconElement.Geometry="{StaticResource DeleteFillCircleGeometry}"/>
+                    </Canvas>
+                </Border>
+            </hc:Drawer>
+        </StackPanel>
+
+        <Grid Grid.Row="2"  Margin="8" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <TextBlock Text="领取清单"></TextBlock>
+            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Grid.Column="1">
+               
+                <Button Command="{Binding ClearListCmd}"
+                          IsEnabled="{Binding ElementName=MyList,Path=HasItems}"
+                        Content="清空列表" Margin="20,0,8,0" Style="{StaticResource BtnPrimary}"></Button>
+
+                <Button Command="{Binding BackCmd}"
+                        CommandParameter="{Binding ElementName=MyList,Path=SelectedIndex}"
+                        IsEnabled="{Binding ElementName=MyList,Path=HasItems}"
+                        Content="一键归还" 
+                        Style="{StaticResource BtnDanger}"></Button>
+                <!--<Button 
+                      IsEnabled="{Binding ElementName=MyList,Path=HasItems}"
+                    Command="{Binding DeleteSelectedCmd}"
+                     CommandParameter="{Binding ElementName=MyList,Path=SelectedIndex}"
+                    Content="删除所选" Margin="0,0,8,0" Style="{StaticResource BtnPrimary}"></Button>-->
+            </StackPanel>
+
+
+            <StackPanel 
+                  Grid.Row="1"    Grid.ColumnSpan="2" 
+                  Margin="8"   Visibility="{Binding HasReagentStock,Converter={StaticResource Boolean2VisibilityConverter}}">
+                <StackPanel >
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Background="red" Padding="5" Foreground="White" Visibility="{Binding ReagentStock.IsMaster,Converter={StaticResource Boolean2VisibilityConverter} }" FontSize="30" Text="专管试剂"></TextBlock>
+                        <TextBlock Background="LightGreen" Padding="5" Foreground="Black"  Visibility="{Binding ReagentStock.IsMaster,Converter={StaticResource Boolean2VisibilityReConverter} }" FontSize="30" Text="普通试剂" ></TextBlock>
+
+                        <TextBlock  Background="LightGreen" Padding="5" Foreground="Black"   Grid.Column="1" Visibility="{Binding ReagentStock.IsMaster,Converter={StaticResource Boolean2VisibilityReConverter} }"  Text="{Binding ReagentStock.Amount,StringFormat=批次数量：{0}}" ></TextBlock>
+                        <TextBlock  Background="red" Padding="5" Foreground="White"   Grid.Column="2" Visibility="{Binding ReagentStock.IsMaster,Converter={StaticResource Boolean2VisibilityReConverter} }"  Text="{Binding ReagentStock.RealAmount,StringFormat=在库数量：{0}}" ></TextBlock>
+                    </Grid>
+                    <UniformGrid Rows="5" Columns="3" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="210">
+
+                        <TextBlock Text="{Binding ReagentStock.BarCode,StringFormat=条码：{0}}"  ></TextBlock>
+                        <TextBlock Text="{Binding ReagentStock.BatchNo,StringFormat=批次号：{0}}" ></TextBlock>
+                        <TextBlock Text="{Binding ReagentStock.ReagentNo,StringFormat=试剂编号：{0}}" ></TextBlock>
+                        <TextBlock Text="{Binding ReagentStock.ReagentCnName,StringFormat=中文名：{0}}" ></TextBlock>
+                        <TextBlock Text="{Binding ReagentStock.ReagentEnName,StringFormat=英文名：{0}}" ></TextBlock>
+                        <TextBlock Text="{Binding ReagentStock.LocationName,StringFormat=存储位置：{0}}" ></TextBlock>
+                        <TextBlock Text="{Binding ReagentStock.Guige,StringFormat=规格：{0}}" ></TextBlock>
+                        <TextBlock Text="{Binding ReagentStock.ReagentSafeAttributeString,StringFormat=安全属性：{0}}" ></TextBlock>
+                        <TextBlock FontWeight="Black" Text="{Binding ReagentStock.StockStatusString,StringFormat=状态：{0}}" ></TextBlock>
+                        <TextBlock Text="{Binding ReagentStock.ReagentCasNo,StringFormat=CAS号：{0}}" ></TextBlock>
+                        <TextBlock Text="{Binding ReagentStock.ClientConfirmStr,StringFormat=入库确认：{0}}" ></TextBlock>
+                        <TextBlock Text="{Binding ReagentStock.DoubleConfirmStr,StringFormat=双人双锁：{0}}" ></TextBlock>
+                        <TextBlock FontSize="24" Foreground="LightGreen" Text="{Binding ReagentStock.Price,StringFormat=价格：{0:N2} 元}" ></TextBlock>
+                        <TextBlock FontSize="24" Foreground="LightBlue" Text="{Binding ReagentStock.Weight,StringFormat=重量：{0:N2} g}" ></TextBlock>
+                        <!--<TextBlock Text="{Binding ReagentStock.FirstStockInTime,StringFormat=首次入库时间：{0:yyyy年MM月dd日}}" ></TextBlock>
+                    <TextBlock Text="{Binding ReagentStock.LatestStockInTime,StringFormat=最后领用时间：{0:yyyy年MM月dd日}}" ></TextBlock>
+                    <TextBlock Text="{Binding ReagentStock.LatestStockOutUserName,StringFormat=最后领用人：{0}}" ></TextBlock>-->
+                    </UniformGrid>
+
+                    <StackPanel 
+                     Visibility="{Binding ReagentStock.CanStaockIn,Converter={StaticResource Boolean2VisibilityConverter}}"
+                    Orientation="Horizontal" HorizontalAlignment="Center">
+                        <hc:NumericUpDown
+                        hc:InfoElement.TitleWidth="140"
+                        hc:InfoElement.TitlePlacement="Left"
+                        hc:InfoElement.Title="试剂重量/g:"
+                         Visibility="{Binding ReagentStock.IsMaster,Converter={StaticResource Boolean2VisibilityConverter}}"
+                         Style="{StaticResource NumericUpDownPlus}"
+                        Height="50" FontSize="25" Width="400" Margin="0,20,10,0" Minimum="1" Value="{Binding Weight}" />
+
+                        <Button Height="70" FontSize="40" 
+                            Command="{Binding Back2Cmd}" 
+                            Margin="0,20,0,0" hc:IconElement.Width="24" hc:IconElement.Geometry="{StaticResource WindowRestoreGeometry}" Content="确认归还" Width="250" Style="{StaticResource BtnDanger}"></Button>
+                    </StackPanel>
+
+                </StackPanel>
+
+
+                <!---->
+            </StackPanel>
+
+            <TextBlock 
+                Grid.Row="1"    Grid.ColumnSpan="2" 
+                Style="{StaticResource TextBlockTitle}"
+                Text="{Binding SearchMsg}"></TextBlock>
+            <!--<DataGrid Grid.Row="1" 
+                      Name="MyList"
+                      Grid.ColumnSpan="2" 
+                      Margin="0,8,0,0" 
+                      AutoGenerateColumns="False"
+                      Width="Auto"
+                       FontSize="18"
+                      ItemsSource="{Binding DataList}">
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn  Width="110"   Header="操作">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="移除" Command="{Binding DataContext.RmLineCmd,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" CommandParameter="{Binding}" Style="{StaticResource BtnDanger}"></Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn  Width="110"  Binding="{Binding BarCode}" Header="条码"/>
+                    <DataGridTextColumn  Width="100"  Binding="{Binding BatchNo}" Header="批次号"/>
+                    <DataGridTextColumn  Width="120"  Binding="{Binding ReagentCnName}" Header="名称"/>
+                    <DataGridTemplateColumn  Width="110"   Header="规格">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding Capacity}"></TextBlock>
+                                    <TextBlock Text="{Binding CapacityUnit}"></TextBlock>
+                                    <TextBlock Text=" "></TextBlock>
+                                    <TextBlock Text="{Binding Purity}"></TextBlock>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTextColumn Width="100"  Binding="{Binding SupplierCompanyName}" Header="供应商"/> 
+                    <DataGridTextColumn  Width="120"  Binding="{Binding LocationName}" Header="位置"/>
+                    <DataGridTextColumn  Width="130"  Binding="{Binding LatestStockOutTime,StringFormat={}{0:yyyy-MM-dd:HH:mm}}" Header="最后领用时间"/>
+                    <DataGridTextColumn Width="120"  Binding="{Binding LatestStockOutUserName}" Header="最后领用人"/>
+                </DataGrid.Columns>
+            </DataGrid>-->
+        </Grid>
+
+    </Grid>
+</UserControl>

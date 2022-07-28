@@ -1,0 +1,12 @@
+{
+	"folders": [
+		{
+			"path": "angular"
+		}
+	],
+	"settings": {
+		"typescript.tsdk": "./node_modules/typescript/lib",
+		"workbench.editor.enablePreview": false,
+		"editor.fontSize": 18
+	}
+}

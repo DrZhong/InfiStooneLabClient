@@ -1,0 +1,51 @@
+<div class="modal-header">
+  <div class="modal-title">审计日志</div>
+</div>
+<nz-spin *ngIf="!record" class="modal-spin"></nz-spin>
+<sv-container *ngIf="record" title="用户信息">
+  <sv label="用户"> {{record.userId}}</sv>
+  <sv label="客户ip地址"> {{record.clientIpAddress}}</sv>
+  <sv label="客户端"> {{record.clientName}}</sv>
+  <sv label="浏览器信息"> {{record.browserInfo}}</sv>
+
+</sv-container>
+<sv-container *ngIf="record" title="操作信息">
+  <sv label="服务名称"> {{record.serviceName}}</sv>
+  <sv label="方法名称"> {{record.methodName}}</sv>
+  <sv label="耗时"> {{record.executionDuration}}</sv>
+  <sv label="访问时间"> {{record.executionTime|date:'yyyy-MM-dd HH:mm:ss'}}</sv>
+  <sv label="请求参数">
+
+    {{record.parameters }}
+
+
+  </sv>
+
+</sv-container>
+
+<sv-container col="1" *ngIf="record" title="异常信息">
+  <sv *ngIf="record.exception" label="异常信息"> {{record.serviceName}}</sv>
+  <sv *ngIf="record.exception" label="异常信息">
+    <pre style="max-width: 800px"> {{record.exception}}</pre>
+
+  </sv>
+
+</sv-container>
+<!-- 
+
+
+<desc-list *ngIf="record" title="异常信息" col="2">
+
+  <desc-list-item *ngIf="!record.exception" term="异常信息">
+    成功
+  </desc-list-item>
+  <desc-list-item *ngIf="record.exception" term="异常信息">
+
+    <pre>{{record.exception}}</pre>
+  </desc-list-item>
+</desc-list> -->
+
+
+<div class="modal-footer">
+  <button nz-button type="button" (click)="success(true)">关闭</button>
+</div>

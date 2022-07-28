@@ -1,0 +1,27 @@
+﻿<Border x:Class="InfiStoone.LabClient.Pages.Basic.InputNumberDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"  
+        xmlns:hc="https://handyorg.github.io/handycontrol"
+        CornerRadius="10"
+        Width="500"
+        Height="400"
+        DataContext="{Binding InputNumberDialog, Source={StaticResource Locator}}"
+        Background="{DynamicResource RegionBrush}">
+    <StackPanel VerticalAlignment="Center" Margin="32">
+       
+        <TextBlock Style="{StaticResource TextBlockLargeBold}" Text="{Binding Title}"/>
+
+
+        <hc:ElementGroup Orientation="Horizontal"  Margin="0,32,0,0" >
+            <hc:NumericUpDown  Width="300" FontSize="30" Value="{Binding Result,UpdateSourceTrigger=PropertyChanged}"></hc:NumericUpDown>
+
+            <ToggleButton Command="{Binding OpenKeyBord}" CommandParameter="{Binding Path=IsChecked, RelativeSource={RelativeSource Self}}" hc:IconElement.Geometry="{StaticResource KeyboardGeometry}"  FontSize="30" Height="50" Content="键盘"/>
+        </hc:ElementGroup>
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Width="120" Margin="0,32,0,0" Command="{Binding OkCmd}" Style="{StaticResource BtnDanger}" Content="确定"/>
+            <Button Width="120" Margin="10,32,0,0" Command="{Binding CloseCmd}" Style="{StaticResource BtnPrimary}" Content="取消"/>
+        </StackPanel>
+      
+    </StackPanel>
+</Border>

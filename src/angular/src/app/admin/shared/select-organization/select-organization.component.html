@@ -1,0 +1,24 @@
+<nz-skeleton [nzLoading]="isTableLoading">
+    <nz-alert *ngIf="nodes.length==0" nzType="warning" nzMessage="暂无组织架构"></nz-alert>
+
+
+    <nz-tree #tree [nzData]="nodes" nzDraggable nzBlockNode [nzTreeTemplate]="nzTreeTemplate" [nzCheckStrictly]="true"
+        (nzCheckBoxChange)="nzCheckBoxChange($event)" [nzCheckable]="showCheckBox" (nzClick)="activeNode($event)">
+        <ng-template #multiExpandedIconTpl let-node let-origin="origin">
+            <i *ngIf="!node.isLeaf" nz-icon [nzType]="node.isExpanded ? 'folder-open' : 'folder'"></i>
+            <i *ngIf="node.isLeaf" nz-icon nzType="file"></i>
+        </ng-template>
+    </nz-tree>
+    <ng-template #nzTreeTemplate let-node>
+        <span title="{{ node?.origin?.sort | number }}" [class.active]="activedNode?.key === node.key">
+            <span *ngIf="!node.isLeaf">
+                <i nz-icon [nzType]="node.isExpanded ? 'folder-open' : 'folder'" (click)="openFolder(node)"></i>
+                <span class="folder-name"> &nbsp;{{ node.title }}</span> &nbsp;
+            </span>
+            <span *ngIf="node.isLeaf">
+                <i nz-icon nzType="file"></i>
+                <span class="file-name"> &nbsp;{{ node.title }}</span> &nbsp;
+            </span>
+        </span>
+    </ng-template>
+</nz-skeleton>

@@ -1,0 +1,14 @@
+<div nz-dropdown style='width:100%;' nzPlacement="bottomRight" [nzDropdownMenu]="menuTpl">
+  <i class="anticon {{currentLanguage.icon}}"></i>
+  {{currentLanguage.displayName}}
+  <i nz-icon nzType="down" class=""></i>
+</div>
+<nz-dropdown-menu #menuTpl="nzDropdownMenu">
+  <ul nz-menu>
+    <li nz-menu-item *ngFor="let language of languages" [nzSelected]="language.name == currentLanguage.name"
+      (click)="changeLanguage(language.name)">
+      <i nz-icon class="anticon {{language.icon}}"></i>
+      <span>{{language.displayName}}</span>
+    </li>
+  </ul>
+</nz-dropdown-menu>

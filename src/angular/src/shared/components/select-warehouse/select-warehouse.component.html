@@ -1,0 +1,4 @@
+<nz-select style="min-width:200px" [(ngModel)]="data" required name="xxx" nzPlaceHolder="选择所属仓库" nzAllowClear>
+    <nz-option *ngFor="let item of wareHouses" [nzLabel]="item.name" [nzValue]="item.id">
+    </nz-option>
+</nz-select>

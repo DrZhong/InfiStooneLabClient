@@ -1,0 +1,30 @@
+<div class="modal-header" *ngIf="record">
+    <div class="modal-title" *ngIf="!record.id">新增试剂</div>
+    <div class="modal-title" *ngIf="record.id">修改试剂</div>
+</div>
+<nz-spin *ngIf="!record" class="modal-spin"></nz-spin>
+<sf *ngIf="record" #sf mode="edit" [schema]="schema" [formData]="record" button="none">
+    <ng-template sf-template="capacity" let-i let-ui="ui" let-schema="schema">
+        <div nz-row>
+            <div nz-col>
+                <input nz-input [attr.id]="i.id" [disabled]="i.disabled" [attr.disabled]="i.disabled" [nzSize]="i.size"
+                    [ngModel]="i.value" (ngModelChange)="i.setValue($event)" />
+            </div>
+            <div nz-col>
+                <nz-select [(ngModel)]="record.capacityUnit" name="capacityUnit">
+                    <nz-option *ngFor="let item of capacityUnits" [nzLabel]="item.value" [nzValue]="item.value">
+                    </nz-option>
+                </nz-select>
+            </div>
+        </div>
+    </ng-template>
+    <ng-template sf-template="confirmArea" let-i let-ui="ui" let-schema="schema">
+        <label nz-checkbox [(ngModel)]="record.clientConfirm" name="clientConfirm">终端确认</label>
+        <label nz-checkbox [(ngModel)]="record.doubleConfirm" name="doubleConfirm">双人双锁</label>
+    </ng-template>
+    <div class="modal-footer">
+        <button nz-button type="button" (click)="close()">关闭</button>
+        <button nz-button type="submit" [nzType]="'primary'" (click)="save(sf.value)" [disabled]="!sf.valid"
+            [nzLoading]="loading">保存</button>
+    </div>
+</sf>

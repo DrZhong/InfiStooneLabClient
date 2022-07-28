@@ -1,0 +1,134 @@
+<page-header [title]="title" [action]="actionTpl">
+    <ng-template #title>
+        <span [ngSwitch]="currentSelectedWarehouseType">
+            <ng-container *ngSwitchCase="1">
+                试剂
+            </ng-container>
+            <ng-container *ngSwitchCase="2">
+                耗材
+            </ng-container>
+            <ng-container *ngSwitchCase="3">
+                办公
+            </ng-container>
+        </span>
+        统计
+    </ng-template>
+    <ng-template #actionTpl>
+        <button nz-button (click)="refresh()" nzType="primary">
+            <i nz-icon nzType="reload" class=""></i> 刷新
+        </button>
+    </ng-template>
+</page-header>
+
+<form nz-form (ngSubmit)="refresh()" col="1" labelWidth="100" se-container>
+    <se label="统计时间">
+        <nz-radio-group [(ngModel)]="dateCurrent" name="dateCurrent" (ngModelChange)="dateCurrentChange()"
+            nzButtonStyle="solid">
+            <label nz-radio-button nzValue="A">今天</label>
+            <label nz-radio-button nzValue="B">昨天</label>
+            <label nz-radio-button nzValue="C">最近7天</label>
+            <label nz-radio-button nzValue="D">最近30天</label>
+        </nz-radio-group>
+        <span class="mx-sm">
+            <nz-range-picker [nzDisabledDate]="disabledDate" [(ngModel)]="customDate" shortcut name="customDate"
+                (ngModelChange)="customDateChange($event)">
+            </nz-range-picker>
+        </span>
+        <span>
+            <nz-radio-group [(ngModel)]="statisBy" name="statisBy" (ngModelChange)="statisByChange()"
+                nzButtonStyle="solid">
+                <label nz-radio-button [nzValue]="0">按时</label>
+                <label nz-radio-button [nzValue]="1">按日</label>
+                <label nz-radio-button [nzValue]="2">按周</label>
+                <label nz-radio-button [nzValue]="3">按月</label>
+            </nz-radio-group>
+        </span>
+    </se>
+    <se label="统计类型">
+        <nz-radio-group [(ngModel)]="reagentType" name="reagentType" (ngModelChange)="reagentTypeChange()"
+            nzButtonStyle="solid">
+            <label nz-radio-button [nzValue]="0">专管</label>
+            <label nz-radio-button [nzValue]="1">普通</label>
+        </nz-radio-group>
+
+        <span class="ml-md">
+            <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+                <input type="text" [(ngModel)]="selectedRegent.cnName" readonly nz-input placeholder="选择具体试剂统计" />
+            </nz-input-group>
+            <ng-template #suffixIconButton>
+                <nz-button-group>
+                    <button nz-button type="button" (click)="clearReg()" nzType="primary" nzDanger><i nz-icon
+                            nzType="delete"></i></button>
+                    <button nz-button type="button" (click)="selectReg()" nzType="primary"><i nz-icon
+                            nzType="search"></i></button>
+                </nz-button-group>
+            </ng-template>
+        </span>
+
+        <span class="ml-xl">
+            安全类型:
+            <nz-radio-group [nzDisabled]="safeTypeDisabled" [(ngModel)]="safeType" name="safeType"
+                (ngModelChange)="safeTypeChange()" nzButtonStyle="solid">
+                <label nz-radio-button [nzValue]="undefined">全部</label>
+                <label nz-radio-button [nzValue]="0">易制毒</label>
+                <label nz-radio-button [nzValue]="1">易制爆</label>
+                <label nz-radio-button [nzValue]="2">剧毒品</label>
+                <label nz-radio-button [nzValue]="3">其它</label>
+            </nz-radio-group>
+        </span>
+    </se>
+</form>
+<nz-card class="mt-sm">
+    <div class="summery mb-md" nz-row nzGutter="0">
+        <div nz-col nzSpan="6">
+            <p>入库数量</p>
+            <div class="num">
+                {{totalStockin|number}}
+            </div>
+        </div>
+
+        <div nz-col nzSpan="6">
+            <p>领用数量</p>
+            <div class="num">
+                {{totalStockout|number}}
+            </div>
+        </div>
+        <div nz-col nzSpan="6">
+            <p>归还数量</p>
+            <div class="num">
+                {{totalBack|number}}
+            </div>
+        </div>
+        <div nz-col nzSpan="6">
+            <p>回收数量</p>
+            <div class="num">
+                {{totalRetrieve|number}}
+            </div>
+        </div>
+    </div>
+    <div class="chart-tip" *ngIf="!chartLoadSuccess">
+        图表加载中...
+    </div>
+    <div echarts [options]="chartOption" [loading]="chartDataLoading" (chartInit)="onChartInit($event)"
+        class="demo-chart">
+
+    </div>
+</nz-card>
+<style>
+    .chart-tip {
+        font-size: 14px;
+        text-align: center;
+        margin-top: 100px;
+    }
+
+    .summery p {
+        margin: 5px 0;
+        color: #777;
+        font-size: 12px;
+    }
+
+    .summery .num {
+        font-size: 20px;
+        font-weight: 500;
+    }
+</style>
