@@ -71,6 +71,12 @@ public class ClientAppService: LabManagerAppServiceBase
         _userFingerRepository = userFingerRepository;
     }
 
+
+    public DateTime GetNow()
+    {
+        return DateTime.Now; 
+    }
+
     /// <summary>
     /// 获取所有指纹
     /// </summary>
